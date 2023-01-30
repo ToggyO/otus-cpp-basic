@@ -1,0 +1,8 @@
+#pragma once
+
+#include <string>
+
+inline std::string getProjectRoot()
+{
+    return "@PROJECT_ROOT@";
+}

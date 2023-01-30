@@ -1,0 +1,7 @@
+Petya|3
+Mike|5
+Billy|10
+Chad|7
+Katy|8
+
+Oleg|6
