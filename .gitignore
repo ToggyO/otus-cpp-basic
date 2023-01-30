@@ -52,3 +52,6 @@ About
 #Build results
 /**/build
 /**/cmake-build-debug
+
+# Storage files
+src/scores.txt

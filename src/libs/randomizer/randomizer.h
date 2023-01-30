@@ -1,3 +1,6 @@
 #pragma once
 
-int getRandomUnsignedInt(const unsigned int max_value = 100);
+namespace Randomizer
+{
+    int getRandomUnsignedInt(const unsigned int max_value = 100);
+};

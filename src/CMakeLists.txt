@@ -6,12 +6,14 @@ add_subdirectory(libs)
 
 set(SOURCES
     main.cpp
-	run_game.cpp
-	game_options_parser.cpp
+	game/run_game.cpp
+	parser/game_options_parser.cpp
 )
 
 set(HEADERS
-	game.h
+	main.h
+	game/game.h
+	parser/game_options_parser.h
 )
 
 add_executable(game ${SOURCES} ${HEADERS})
@@ -26,6 +28,7 @@ target_include_directories(
 	PRIVATE
 	${CMAKE_SOURCE_DIR}/libs
 	${CMAKE_CURRENT_BINARY_DIR}
+	${CMAKE_CURRENT_BINARY_DIR}/src
 )
 
 target_link_libraries(game PRIVATE

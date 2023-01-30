@@ -12,6 +12,11 @@ bool Scores::Score::operator >(const Score& score) const
     return attempts_count > score.attempts_count;
 }
 
+bool Scores::Score::operator <(const Score& score) const
+{
+    return attempts_count < score.attempts_count;
+}
+
 Scores::score_username_equality::score_username_equality(const std::string& n) : name(n) { }
 
 bool Scores::score_username_equality::operator ()(const Scores::Score& s) { return s.name == name; }

@@ -3,7 +3,9 @@
 #include <cstdlib>
 #include <ctime>
 
-int getRandomUnsignedInt(const unsigned int max_value = 100)
+#include "randomizer.h"
+
+int Randomizer::getRandomUnsignedInt(const unsigned int max_value)
 {
 	std::srand(std::time(nullptr)); // use current time as seed for random generator
 

@@ -1,3 +1,6 @@
 #pragma once
 
-int checkValue(int target_value);
+namespace ValueChecker
+{
+    int checkValue(int target_value);
+}

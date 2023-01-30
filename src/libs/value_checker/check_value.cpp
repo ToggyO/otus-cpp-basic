@@ -1,6 +1,8 @@
 #include <iostream>
 
-int checkValue(int target_value)
+#include "value_checker.h"
+
+int ValueChecker::checkValue(int target_value)
 {
 	int current_value = 0;
 	int attempts_count = 0;

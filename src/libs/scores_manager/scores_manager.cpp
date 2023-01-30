@@ -21,6 +21,12 @@ Scores::ScoresManager::ScoresManager(std::string file_path)
     }
 
     mPath = file_path;
+    bool exists = std::experimental::filesystem::exists(mPath);
+    if (!exists)
+    {
+        std::ofstream created(mPath);
+        created.close();
+    }
 }
 
 int Scores::ScoresManager::WriteScore(std::string user_name, ushort attempts_count)
@@ -47,10 +53,17 @@ int Scores::ScoresManager::WriteScore(std::string user_name, ushort attempts_cou
     return 0;
 }
 
-std::list<std::string> Scores::ScoresManager::GetScoresList()
+std::list<std::string> Scores::ScoresManager::GetScoresList(bool isDesc)
 {
     auto scoresList = getScoresList(mPath, delimiter);
-    scoresList.sort(std::greater<Score>());
+    if (isDesc)
+    {
+        scoresList.sort(std::greater<Score>());
+    }
+    else
+    {
+        scoresList.sort();
+    }
 
     std::list<std::string> results;
     for (auto score : scoresList)

@@ -1,13 +1,11 @@
-#include <experimental/filesystem>
 #include <iostream>
 
-#include "config.h"
 #include "game.h"
 
 // TODO: check include
-#include "libs/value_checker/value_checker.h"
-#include "libs/randomizer/randomizer.h"
-#include "libs/scores_manager/scores_manager.h"
+#include "../libs/value_checker/value_checker.h"
+#include "../libs/randomizer/randomizer.h"
+#include "../libs/scores_manager/scores_manager.h"
 //
 
 const int easy = 10;
@@ -19,11 +17,7 @@ int defineMaxValue(const gameSettings &settings);
 
 int runGame(const gameSettings &settings)
 {
-    auto file_path = std::experimental::filesystem::path(PROJECT_ROOT)
-                .append("src")
-                .append("scores.txt");
-
-    Scores::ScoresManager manager(file_path);
+    Scores::ScoresManager manager(settings.filePath);
 
     if (settings.showScoresOnly)
     {
@@ -32,7 +26,7 @@ int runGame(const gameSettings &settings)
     }
 
     int max_value = defineMaxValue(settings);
-    int target_value = getRandomUnsignedInt(max_value);
+    int target_value = Randomizer::getRandomUnsignedInt(max_value);
 
     if (DEBUG)
     {
@@ -42,14 +36,9 @@ int runGame(const gameSettings &settings)
 
     std::string user_name;
     std::cout << "Hi! Enter your name, please:" << std::endl;
-    std::cin >> user_name;
-    if (std::cin.fail())
-    {
-        std::cerr << "Wrong input data!" << std::endl;
-        return -1;
-    }
+    std::getline(std::cin, user_name);
 
-    if (manager.WriteScore(user_name, checkValue(target_value)) < 0)
+    if (manager.WriteScore(user_name, ValueChecker::checkValue(target_value)) < 0)
     {
         return -1;
     }
@@ -62,7 +51,16 @@ int runGame(const gameSettings &settings)
 void printScoresTable(Scores::ScoresManager &manager)
 {
     std::cout << "High scores table:" << std::endl;
-    for (const auto &score : manager.GetScoresList())
+
+    auto scores = manager.GetScoresList();
+    if (scores.empty())
+    {
+        std::cout << "No data!" << std::endl;
+        return;
+    }    
+
+
+    for (const auto &score : scores)
     {
         std::cout << score << std::endl;
     }
