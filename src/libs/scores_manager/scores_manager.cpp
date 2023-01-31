@@ -11,9 +11,7 @@ const char* err_write_to_file = "Failed to write into file";
 const char* err_read_from_file = "Failed to read from file";
 const char Scores::ScoresManager::delimiter = '|';
 
-std::list<Scores::Score> getScoresList(std::string file_path, char delimiter);
-
-Scores::ScoresManager::ScoresManager(std::string file_path)
+Scores::ScoresManager::ScoresManager(const std::string &file_path)
 {
     if (file_path.size() == 0)
     {
@@ -29,16 +27,8 @@ Scores::ScoresManager::ScoresManager(std::string file_path)
     }
 }
 
-int Scores::ScoresManager::WriteScore(std::string user_name, ushort attempts_count)
+int Scores::ScoresManager::WriteScore(const std::string &user_name, ushort attempts_count)
 {
-    // Вопрос: кажется, что открытия файлового потока - затратная по времени и ресурсам операция.
-    // Стоит ли кэшировать открытый поток в полях класса и переисользовать его? А закрывать в деструкторе.
-    std::ofstream out_stream{mPath, std::ios_base::app};
-    if (!out_stream.is_open())
-    {
-        throw std::runtime_error(err_write_to_file);
-    }
-
     int delimiterPosition = user_name.find(delimiter, 0);
     if (delimiterPosition >= 0)
     {
@@ -46,8 +36,32 @@ int Scores::ScoresManager::WriteScore(std::string user_name, ushort attempts_cou
         return -1;
     }
 
-    out_stream << user_name << delimiter;
-    out_stream << attempts_count << std::endl;
+    std::ofstream out_stream;
+
+
+    auto scores = getScoresList(mPath, delimiter);
+    auto user_score_iter = std::find_if(scores.begin(), scores.end(), score_username_equality(user_name));
+    if ((user_score_iter != scores.end()) && (user_score_iter->attempts_count > attempts_count))
+    {
+        out_stream.open(mPath, std::ofstream::out | std::ofstream::trunc);
+        if (out_stream.fail())
+        {
+            throw std::runtime_error(err_write_to_file);
+        }
+
+        user_score_iter->attempts_count = attempts_count;
+        rewriteScores(out_stream, scores, delimiter); 
+    }
+    else
+    {
+        out_stream.open(mPath, std::ofstream::app);
+        if (out_stream.fail())
+        {
+            throw std::runtime_error(err_write_to_file);
+        }
+
+        appendScore(out_stream, user_name, attempts_count, delimiter);
+    }
 
     out_stream.close();
     return 0;
@@ -76,10 +90,8 @@ std::list<std::string> Scores::ScoresManager::GetScoresList(bool isDesc)
 
 std::list<Scores::Score> getScoresList(std::string file_path, char delimiter)
 {
-    // Вопрос: кажется, что открытия файлового потока - затратная по времени и ресурсам операция.
-    // Стоит ли кэшировать открытый поток в полях класса и переисользовать его? А закрывать в деструкторе.
     std::ifstream in_stream{file_path};
-    if (!in_stream.is_open())
+    if (!in_stream.is_open() || in_stream.fail())
     {
         throw std::runtime_error(err_read_from_file);
     }
@@ -105,4 +117,18 @@ std::list<Scores::Score> getScoresList(std::string file_path, char delimiter)
 
     in_stream.close();
     return scoresList;
+}
+
+void appendScore(std::ofstream &out_stream, const std::string &user_name, const ushort attempts_count, const char delimiter)
+{
+    out_stream << user_name << delimiter;
+    out_stream << attempts_count << std::endl;
+}
+
+void rewriteScores(std::ofstream &out_stream, const std::list<Scores::Score> &scores, const char delimiter)
+{
+    for (const auto &score : scores)
+    {
+        appendScore(out_stream, score.name, score.attempts_count, delimiter);
+    }
 }

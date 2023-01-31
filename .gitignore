@@ -54,4 +54,4 @@ About
 /**/cmake-build-debug
 
 # Storage files
-src/scores.txt
+/**/scores.txt
