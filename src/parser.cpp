@@ -126,6 +126,12 @@ void throwInvalidCharError(Lexer &lexer, Token token)
         case Token::Name:
             invalid_token = lexer.get_name();
             break;
+        case Token::Lbrace:
+            invalid_token = '(';
+            break;
+        case Token::Rbrace:
+            invalid_token = ')';
+            break;
         default:
             invalid_token = "unknown";
     }

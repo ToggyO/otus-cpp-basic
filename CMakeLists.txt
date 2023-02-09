@@ -17,7 +17,6 @@ add_executable(calc
 )
 
 target_include_directories(calc PRIVATE include)
-# target_include_directories(calc PRIVATE src)
 
 if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR
     CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
