@@ -1,9 +1,8 @@
 #include "tree/operation_node.hpp"
 
-OperationNode::OperationNode(const char *op, ASTNode *left_hand, ASTNode *right_hand)
-    :ASTNode(op, left_hand, right_hand)
-    , left_hand_node(left_hand), right_hand_node(right_hand) {}
+OperationNode::OperationNode(const char *op, const ASTNode *left_hand, const ASTNode *right_hand)
+    : ASTNode(op, left_hand, right_hand) {}
 
-ASTNode *OperationNode::left() const { return left_hand_node; }
+const ASTNode *OperationNode::left() const { return lhs_p; }
 
-ASTNode *OperationNode::right() const { return right_hand_node; }
+const ASTNode *OperationNode::right() const { return rhs_p; }

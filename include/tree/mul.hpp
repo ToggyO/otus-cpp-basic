@@ -6,5 +6,5 @@
 class Mul : public OperationNode
 {
     public:
-        Mul(ASTNode *left_hand, ASTNode *right_hand);
+        Mul(const ASTNode *left_hand, const ASTNode *right_hand);
 };

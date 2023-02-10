@@ -5,5 +5,5 @@
 class Add : public OperationNode
 {
     public:
-        Add(ASTNode *left_hand, ASTNode *right_hand);
+        Add(const ASTNode *const left_hand, const ASTNode *const right_hand);
 };

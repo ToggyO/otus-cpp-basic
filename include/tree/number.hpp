@@ -6,7 +6,7 @@
 
 class Number : public ASTNode {
   public:
-    Number(int val);
+    explicit Number(int val);
 
     int value() const;
 

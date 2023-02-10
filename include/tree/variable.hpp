@@ -5,7 +5,7 @@
 class Variable : public ASTNode
 {
     public:
-        Variable(std::string val);
+        explicit Variable(const std::string& val);
             
         std::string value() const;
 
