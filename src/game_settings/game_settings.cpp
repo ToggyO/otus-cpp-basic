@@ -10,49 +10,47 @@ bool startsWith(const std::string& s, const std::string& prefix);
 
 int GameSettings::parseFromCmd(int argc, char* argv[])
 {
-    std::string previous_option_name;
-    std::string current_option_name;
-    bool previous_arg_is_option = false;
-
-    for (int i = 1; i < argc; i++)
+    for (char** current = &argv[1]; *current != nullptr; current++)
     {
-        auto arg = std::string{argv[i]};
+        const std::string arg(*current);
 
-        if (startsWith(arg, option_prefix))
+        if (!startsWith(arg, option_prefix))
         {
-            current_option_name = arg.substr(option_prefix.size());
-
-            if (i == (argc - 1))
-            {
-                int exitCode = applySetting(current_option_name);
-                if (exitCode < 0)
-                {
-                    std::cerr << cant_apply_settings << std::endl;
-                    return exitCode;
-                }
-            }
-
-            if (previous_arg_is_option)
-            {
-                int exitCode = applySetting(previous_option_name);
-                if (exitCode < 0)
-                {
-                    std::cerr << cant_apply_settings << std::endl;
-                    return exitCode;
-                }
-            }
-
-            previous_option_name = current_option_name;
-            previous_arg_is_option = true;
-            continue;
+            std::cerr << "invalid argument format, must be '" << option_prefix << "<argname>'";
+            return -1;
         }
-       
-        previous_arg_is_option = false;
-        int exitCode = applySetting(current_option_name, arg);
-        if (exitCode < 0)
+
+        const std::string argName = arg.substr(option_prefix.size());
+        auto iter = options.find(argName);
+
+        if (iter == options.end())
         {
-            std::cerr << cant_apply_settings << std::endl;
-            return exitCode;
+            std::cerr << "unknown argument - '" << argName << "'" << std::endl;
+            return -1;
+        }
+
+        int exit_code = 0;
+
+        if (iter->second.withParam)
+        {
+            current++;
+
+            if (*current == nullptr)
+            {
+                std::cerr << "value is required for parameter '" << argName << "'";
+                return -1;
+            }
+            exit_code = applySetting(argName, *current);
+        }
+        else
+        {
+            exit_code = applySetting(argName);
+        }
+
+        if (exit_code < 0)
+        {
+            std::cerr << "something went wrong" << std::endl;
+            return exit_code;
         }
     }
 
@@ -135,6 +133,7 @@ int GameSettings::applySetting(const std::string &option, const std::string &arg
     }
     catch(const std::exception& e)
     {
+        std::cerr << e.what() << std::endl;
         return -1;
     }
 

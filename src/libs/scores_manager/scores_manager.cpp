@@ -27,20 +27,25 @@ Scores::ScoresManager::ScoresManager(const std::string &file_path)
     }
 }
 
-int Scores::ScoresManager::WriteScore(const std::string &user_name, ushort attempts_count)
+bool Scores::ScoresManager::validateUserName(const std::string &user_name)
 {
-    int delimiterPosition = user_name.find(delimiter, 0);
-    if (delimiterPosition >= 0)
+    size_t delimiterPosition = user_name.find(delimiter, 0);
+    if (delimiterPosition != std::string::npos)
     {
+        // Можно применить тернарный оператор, но я хочу вывести сообщение с текстом ошибки
         std::cout << err_forbidden_char << ' ' << '`' << delimiter << '`' << std::endl;
-        return -1;
+        return false;
     }
 
+    return true;
+}
+
+int Scores::ScoresManager::WriteScore(const std::string &user_name, ushort attempts_count)
+{
     std::ofstream out_stream;
 
-
     auto scores = getScoresList(mPath, delimiter);
-    auto user_score_iter = std::find_if(scores.begin(), scores.end(), score_username_equality(user_name));
+    auto user_score_iter = std::find_if(scores.begin(), scores.end(), [&] (const Score& s) {return user_name == s.name;});
     if ((user_score_iter != scores.end()) && (user_score_iter->attempts_count > attempts_count))
     {
         out_stream.open(mPath, std::ofstream::out | std::ofstream::trunc);
@@ -88,7 +93,7 @@ std::list<std::string> Scores::ScoresManager::GetScoresList(bool isDesc)
     return results;
 }
 
-std::list<Scores::Score> getScoresList(std::string file_path, char delimiter)
+std::list<Scores::Score> Scores::getScoresList(std::string file_path, char delimiter)
 {
     std::ifstream in_stream{file_path};
     if (!in_stream.is_open() || in_stream.fail())
@@ -119,13 +124,13 @@ std::list<Scores::Score> getScoresList(std::string file_path, char delimiter)
     return scoresList;
 }
 
-void appendScore(std::ofstream &out_stream, const std::string &user_name, const ushort attempts_count, const char delimiter)
+void Scores::appendScore(std::ofstream &out_stream, const std::string &user_name, const ushort attempts_count, const char delimiter)
 {
     out_stream << user_name << delimiter;
     out_stream << attempts_count << std::endl;
 }
 
-void rewriteScores(std::ofstream &out_stream, const std::list<Scores::Score> &scores, const char delimiter)
+void Scores::rewriteScores(std::ofstream &out_stream, const std::list<Scores::Score> &scores, const char delimiter)
 {
     for (const auto &score : scores)
     {

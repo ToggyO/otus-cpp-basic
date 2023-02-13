@@ -10,7 +10,12 @@ int main(int argc, char* argv[])
 {
     GameSettings settings;
 
-    settings.parseFromCmd(argc, argv);
+    int parsseResult = settings.parseFromCmd(argc, argv);
+    if (parsseResult < 0)
+    {
+        return parsseResult;
+    }
+
     settings.setFilePath(
         std::experimental::filesystem::path(getProjectRoot())
             .append("src")

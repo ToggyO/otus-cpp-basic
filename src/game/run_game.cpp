@@ -3,7 +3,7 @@
 #include "game.h"
 
 #include "../game_settings/game_settings.hpp"
-#include "../libs/value_checker/value_checker.h"
+#include "../libs/value_checker/check_value.h"
 #include "../libs/randomizer/randomizer.h"
 #include "../libs/scores_manager/scores_manager.h"
 //
@@ -36,6 +36,11 @@ int runGame(const GameSettings &settings, const IDebugger *debugger)
     std::string user_name;
     std::cout << "Hi! Enter your name, please:" << std::endl;
     std::getline(std::cin, user_name);
+
+    if (!manager.validateUserName(user_name))
+    {
+        return -1;
+    }
 
     if (manager.WriteScore(user_name, ValueChecker::checkValue(target_value)) < 0)
     {

@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.5)
 project(value_checker)
 
 add_library(value_checker STATIC
-    value_checker.h
+    check_value.h
     check_value.cpp
 )
 
