@@ -33,5 +33,5 @@ private:
     std::map<std::string, Option> options;
 
 
-    int applySetting(const std::string &option, const std::string &arg = "");
+    int applySetting(OptionType option, const std::string &arg = "");
 };

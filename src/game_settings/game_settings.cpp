@@ -40,11 +40,11 @@ int GameSettings::parseFromCmd(int argc, char* argv[])
                 std::cerr << "value is required for parameter '" << argName << "'";
                 return -1;
             }
-            exit_code = applySetting(argName, *current);
+            exit_code = applySetting(iter->second.optionType, *current);
         }
         else
         {
-            exit_code = applySetting(argName);
+            exit_code = applySetting(iter->second.optionType);
         }
 
         if (exit_code < 0)
@@ -55,6 +55,51 @@ int GameSettings::parseFromCmd(int argc, char* argv[])
     }
 
     return 0;
+}
+
+int GameSettings::applySetting(OptionType option, const std::string &arg)
+{
+    try
+    {
+        switch (option)
+        {
+        case OptionType::Max:
+            maxValue = std::stoi(arg);
+            break;
+
+        case OptionType::Table:
+            showScoresOnly = true;
+            break;
+
+        case OptionType::Level:
+            levelIsDefined = true;
+            level = static_cast<DifficultyLevel>(std::stoi(arg));
+            break;
+        
+        default:
+            throw std::runtime_error("unknown argument");
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << std::endl;
+        return -1;
+    }
+
+    return 0;
+}
+
+void GameSettings::setFilePath(const std::string &path)
+{
+    if (path.size() > 0)
+    {
+        filePath = path;
+    }
+}
+
+bool startsWith(const std::string& s, const std::string& prefix) {
+    return s.size() >= prefix.size() &&
+           std::equal(prefix.begin(), prefix.end(), s.begin());
 }
 
 // TODO: remove
@@ -109,46 +154,33 @@ int GameSettings::parseFromCmd(int argc, char* argv[])
 //     return 0;
 // }
 
-int GameSettings::applySetting(const std::string &option, const std::string &arg)
-{
-    try
-    {
-        if (option == max_value_option)
-        {
-            maxValue = std::stoi(arg);
-        }
+// int GameSettings::applySetting(const std::string &option, const std::string &arg)
+// {
+//     try
+//     {
+//         if (option == max_value_option)
+//         {
+//             maxValue = std::stoi(arg);
+//         }
 
-        if (option == table_option)
-        {
-            showScoresOnly = true;
-        }
+//         if (option == table_option)
+//         {
+//             showScoresOnly = true;
+//         }
 
-        if (option == level_option)
-        {
-            // Вопрос: как лучше скастовать int в enum, чтобы словить ошибку, если в enum нет подходящего значения?
-            int num = std::stoi(arg);
-            levelIsDefined = true;
-            level = static_cast<DifficultyLevel>(num);
-        }
-    }
-    catch(const std::exception& e)
-    {
-        std::cerr << e.what() << std::endl;
-        return -1;
-    }
+//         if (option == level_option)
+//         {
+//             // Вопрос: как лучше скастовать int в enum, чтобы словить ошибку, если в enum нет подходящего значения?
+//             int num = std::stoi(arg);
+//             levelIsDefined = true;
+//             level = static_cast<DifficultyLevel>(num);
+//         }
+//     }
+//     catch(const std::exception& e)
+//     {
+//         std::cerr << e.what() << std::endl;
+//         return -1;
+//     }
 
-    return 0;
-}
-
-void GameSettings::setFilePath(const std::string &path)
-{
-    if (path.size() > 0)
-    {
-        filePath = path;
-    }
-}
-
-bool startsWith(const std::string& s, const std::string& prefix) {
-    return s.size() >= prefix.size() &&
-           std::equal(prefix.begin(), prefix.end(), s.begin());
-}
+//     return 0;
+// }
