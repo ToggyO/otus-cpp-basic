@@ -5,5 +5,5 @@
 class Add : public ASTNode
 {
     public:
-        Add(ASTNode *left_hand, ASTNode *right_hand);
+        Add(const ASTNode *left_hand, const ASTNode *right_hand);
 };

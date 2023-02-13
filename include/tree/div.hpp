@@ -5,5 +5,5 @@
 class Div : public ASTNode
 {
     public:
-        Div(ASTNode *left_hand, ASTNode *right_hand);
+        Div(const ASTNode *left_hand, const ASTNode *right_hand);
 };

@@ -1,6 +1,6 @@
 #include "tree/variable.hpp"
 
-Variable::Variable(std::string val)
+Variable::Variable(const std::string& val)
     : ASTNode(val)
     , val_(val) {}
 

@@ -5,5 +5,5 @@
 class Sub : public ASTNode
 {
     public:
-        Sub(ASTNode *left_hand, ASTNode *right_hand);
+        Sub(const ASTNode *left_hand, const ASTNode *right_hand);
 };
