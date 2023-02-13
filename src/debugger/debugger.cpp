@@ -1,5 +1,7 @@
-//
-// Created by oleg-togushakov on 12.02.23.
-//
+#include "debugger.hpp"
 
-#include "debugger.h"
+void Debugger::onGameStateChange(int max_value, int target_value) const
+{
+    std::cout << "max value " << max_value << std::endl;
+    std::cout << "target value " << target_value << std::endl;
+}

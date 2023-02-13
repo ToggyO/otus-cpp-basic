@@ -1,24 +1,29 @@
 #include <experimental/filesystem>
-#include <iostream>
-#include <cstring>
 
 #include "main.h"
 #include "config.h"
 #include "game/game.h"
-#include "parser/game_options_parser.h"
-
-bool DEBUG = false;
+#include "game_settings/game_settings.hpp"
+#include "debugger/debugger.hpp"
 
 int main(int argc, char* argv[])
 {
-    gameSettings settings;
+    GameSettings settings;
 
-    settings.filePath = std::experimental::filesystem::path(getProjectRoot())
-                .append("src")
-                .append("scores.txt");
+    settings.parseFromCmd(argc, argv);
+    settings.setFilePath(
+        std::experimental::filesystem::path(getProjectRoot())
+            .append("src")
+            .append("scores.txt"));
 
-    GameOptionsParser parser(settings);
-    parser.Parse(argc, argv);
+    Debugger *debugAgent = nullptr;
 
-    return runGame(settings);
+    #ifdef DEBUG_BUILD
+    {
+        Debugger debugger;
+        debugAgent = &debugger;
+    }
+    #endif
+
+    return runGame(settings, debugAgent);
 }

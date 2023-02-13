@@ -4,16 +4,21 @@ project(03.homework.src CXX)
 
 add_subdirectory(libs)
 
+add_definitions(-DDEBUG_BUILD)
+
 set(SOURCES
     main.cpp
 	game/run_game.cpp
-	parser/game_options_parser.cpp
+	game_settings/game_settings.cpp
+	debugger/debugger.cpp
 )
 
 set(HEADERS
 	main.h
+	debugger.h
 	game/game.h
-	parser/game_options_parser.h
+	game_settings/game_settings.hpp
+	debugger/debugger.hpp
 )
 
 add_executable(game ${SOURCES} ${HEADERS})
