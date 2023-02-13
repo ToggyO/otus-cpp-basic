@@ -2,8 +2,8 @@
 
 #include "game.h"
 
-// TODO: check include
-#include "../libs/value_checker/value_checker.h"
+#include "../game_settings/game_settings.hpp"
+#include "../libs/value_checker/check_value.h"
 #include "../libs/randomizer/randomizer.h"
 #include "../libs/scores_manager/scores_manager.h"
 //
@@ -13,9 +13,9 @@ const int medium = 50;
 const int hard = 100;
 
 void printScoresTable(Scores::ScoresManager &manager);
-int defineMaxValue(const gameSettings &settings);
+int defineMaxValue(const GameSettings &settings);
 
-int runGame(const gameSettings &settings)
+int runGame(const GameSettings &settings, const IDebugger *debugger)
 {
     Scores::ScoresManager manager(settings.filePath);
 
@@ -28,15 +28,19 @@ int runGame(const gameSettings &settings)
     int max_value = defineMaxValue(settings);
     int target_value = Randomizer::getRandomUnsignedInt(max_value);
 
-    if (DEBUG)
+    if (debugger != nullptr)
     {
-		std::cout << "max value " << max_value << std::endl;
-	    std::cout << "target value " << target_value << std::endl;
+        debugger->onGameStateChange(max_value, target_value);
     }
 
     std::string user_name;
     std::cout << "Hi! Enter your name, please:" << std::endl;
     std::getline(std::cin, user_name);
+
+    if (!manager.validateUserName(user_name))
+    {
+        return -1;
+    }
 
     if (manager.WriteScore(user_name, ValueChecker::checkValue(target_value)) < 0)
     {
@@ -66,7 +70,7 @@ void printScoresTable(Scores::ScoresManager &manager)
     }
 }
 
-int defineMaxValue(const gameSettings &settings)
+int defineMaxValue(const GameSettings &settings)
 {
     if (settings.levelIsDefined)
     {

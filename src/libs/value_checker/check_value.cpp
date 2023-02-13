@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "value_checker.h"
+#include "check_value.h"
 
 int ValueChecker::checkValue(int target_value)
 {
