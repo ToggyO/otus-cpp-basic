@@ -1,9 +1,8 @@
 #pragma once
 
-#include "operation_node.hpp"
+#include "astnode.hpp"
 
-
-class Mul : public OperationNode
+class Mul : public ASTNode
 {
     public:
         Mul(ASTNode *left_hand, ASTNode *right_hand);

@@ -1,9 +1,10 @@
 #pragma once
 
-#include "operation_node.hpp"
+#include "astnode.hpp"
 
-class Add : public OperationNode
+class Add : public ASTNode
 {
     public:
         Add(ASTNode *left_hand, ASTNode *right_hand);
+        ~Add();
 };
