@@ -3,4 +3,4 @@
 const static char* div_operator = "/";
 
 Div::Div(const ASTNode *left_hand, const ASTNode *right_hand)
-    : OperationNode(div_operator, left_hand, right_hand) {}
+    : ASTNode(div_operator, left_hand, right_hand) {}

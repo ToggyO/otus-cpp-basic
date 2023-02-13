@@ -11,7 +11,6 @@ add_executable(calc
     src/nodes/div.cpp
     src/nodes/mul.cpp
     src/nodes/number.cpp
-    src/nodes/operation_node.cpp
     src/nodes/sub.cpp
     src/nodes/variable.cpp
 )

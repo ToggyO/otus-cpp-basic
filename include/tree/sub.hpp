@@ -1,8 +1,8 @@
 #pragma once
 
-#include "operation_node.hpp"
+#include "astnode.hpp"
 
-class Sub : public OperationNode
+class Sub : public ASTNode
 {
     public:
         Sub(const ASTNode *left_hand, const ASTNode *right_hand);
