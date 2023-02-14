@@ -2,13 +2,14 @@
 
 #include "statistics.hpp"
 
-class Min : public IStatistics {
+class Max : public IStatistics
+{
     public:
-        Min();
+        Max();
         void update(double next) override;
         double eval() const override;
         const char * name() const override;
 
     private:
-        double m_min;
+        double m_max;
 };

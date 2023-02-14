@@ -2,13 +2,15 @@
 
 #include "statistics.hpp"
 
-class Min : public IStatistics {
+class Mean : public IStatistics
+{
     public:
-        Min();
+        Mean();
         void update(double next) override;
         double eval() const override;
         const char * name() const override;
 
     private:
-        double m_min;
+        int m_count;
+        double m_sum;
 };

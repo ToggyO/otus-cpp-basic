@@ -3,10 +3,12 @@
 
 #include "statistics/min.hpp"
 
-Min::Min() : m_min{std::numeric_limits<double>::min()} {}
+Min::Min() : m_min{std::numeric_limits<double>::max()} {}
 
-void Min::update(double next) override {
-    if (next < m_min) {
+void Min::update(double next)
+{
+    if (next < m_min)
+    {
         m_min = next;
     }
 }
@@ -16,7 +18,7 @@ double Min::eval() const
     return m_min;
 }
 
-const char *Min::name() const override
+const char *Min::name() const
 {
     return "min";
 }
