@@ -1,19 +1,19 @@
 #pragma once
 
+#include <vector>
+
 #include "statistics.hpp"
 
-class Mean : public IStatistics
+class Percentile : public IStatistics
 {
     public:
-        Mean();
+        explicit Percentile(double percent);
         void update(double next) override;
         double eval() const override;
         const char * name() const override;
 
-    protected:
-        int getCount() const { return m_count; };
-
     private:
-        int m_count;
-        double m_sum;
+        double percent;
+        std::vector<double> numbers;
+        const char* m_name;
 };

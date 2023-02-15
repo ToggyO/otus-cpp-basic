@@ -1,20 +1,32 @@
+#include "cmath"
+
 #include "statistics/standard_deviation.hpp"
 
-StandardDeviation::StandardDeviation() : m_sd(0.0), m_sum(0.0), m_count(0) {}
+const char *std_name = "std";
+
+StandardDeviation::StandardDeviation() : Mean() {}
 
 void StandardDeviation::update(double next)
 {
-    m_sum += next;
-    m_count++;
+    Mean::update(next);
+    numbers.emplace_back(next);
 }
 
 double StandardDeviation::eval() const
 {
-    double mean = m_sum 
-    return 0;
+    double mean = Mean::eval();
+    int count = Mean::getCount();
+
+    double sd = 0;
+    for (double number : numbers)
+    {
+        sd += std::pow(number - mean, 2);
+    }
+
+    return std::sqrt(sd / count);
 }
 
 const char * StandardDeviation::name() const
 {
-    return "std";
+    return std_name;
 }

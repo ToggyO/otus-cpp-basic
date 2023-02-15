@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "mean.hpp"
 
 class StandardDeviation : public Mean
@@ -11,8 +13,5 @@ class StandardDeviation : public Mean
         const char * name() const override;
 
     private:
-        double calculateSD();
-        double m_sum;
-        double m_sd;
-        int m_count;
+        std::vector<double> numbers;
 };

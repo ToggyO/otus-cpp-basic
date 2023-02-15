@@ -3,6 +3,8 @@
 
 #include "statistics/max.hpp"
 
+const char *max_name = "max";
+
 Max::Max() : m_max(std::numeric_limits<double>::min()) {}
 
 void Max::update(double next)
@@ -20,5 +22,5 @@ double Max::eval() const
 
 const char *Max::name() const
 {
-    return "max";
+    return max_name;
 }

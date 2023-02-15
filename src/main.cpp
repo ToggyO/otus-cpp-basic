@@ -1,17 +1,22 @@
 #include <iostream>
 
 #include "statistics/statistics.hpp"
-#include "statistics/min.hpp"
 #include "statistics/max.hpp"
 #include "statistics/mean.hpp"
+#include "statistics/min.hpp"
+#include "statistics/percentile.hpp"
+#include "statistics/standard_deviation.hpp"
 
 int main()
 {
-	const size_t statistics_count = 3;
+	const size_t statistics_count = 6;
 	IStatistics *statistics[statistics_count] = {
         new Min{},
         new Max{},
         new Mean{},
+        new StandardDeviation{},
+        new Percentile(75),
+        new Percentile(95),
     };
 
 	double val = 0;

@@ -9,6 +9,7 @@ add_executable(stat
     max.cpp
     mean.cpp
     standard_deviation.cpp
+    percentile.cpp
 )
 
 target_include_directories(stat PRIVATE ../include)

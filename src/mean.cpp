@@ -1,5 +1,7 @@
 #include "statistics/mean.hpp"
 
+const char *mean_name = "mean";
+
 Mean::Mean() : m_count(0), m_sum(0.0) {}
 
 void Mean::update(double next)
@@ -15,5 +17,5 @@ double Mean::eval() const
 
 const char *Mean::name() const
 {
-    return "mean";
+    return mean_name;
 }

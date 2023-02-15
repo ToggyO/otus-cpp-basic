@@ -1,7 +1,8 @@
-#include <iostream>
 #include <limits>
 
 #include "statistics/min.hpp"
+
+const char *min_name = "min";
 
 Min::Min() : m_min{std::numeric_limits<double>::max()} {}
 
@@ -20,5 +21,5 @@ double Min::eval() const
 
 const char *Min::name() const
 {
-    return "min";
+    return min_name;
 }
