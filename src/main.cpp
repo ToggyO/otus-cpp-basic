@@ -15,7 +15,7 @@ int main()
         new Max{},
         new Mean{},
         new StandardDeviation{},
-        new Percentile(75),
+        new Percentile(90),
         new Percentile(95),
     };
 
