@@ -1,3 +1,4 @@
+#include <array>
 #include <iostream>
 
 #include "statistics/statistics.hpp"
@@ -10,14 +11,15 @@
 int main()
 {
 	const size_t statistics_count = 6;
-	IStatistics *statistics[statistics_count] = {
-        new Min{},
+	std::array<IStatistics*, statistics_count> statistics 
+	{
+		new Min{},
         new Max{},
         new Mean{},
         new StandardDeviation{},
         new Percentile(90),
         new Percentile(95),
-    };
+	};
 
 	double val = 0;
 	while (std::cin >> val) {

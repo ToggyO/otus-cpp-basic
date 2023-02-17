@@ -15,7 +15,6 @@ void StandardDeviation::update(double next)
 double StandardDeviation::eval() const
 {
     double mean = Mean::eval();
-    int count = Mean::getCount();
 
     double sd = 0;
     for (double number : numbers)
@@ -23,7 +22,7 @@ double StandardDeviation::eval() const
         sd += std::pow(number - mean, 2);
     }
 
-    return std::sqrt(sd / count);
+    return std::sqrt(sd / (double)numbers.size());
 }
 
 const char * StandardDeviation::name() const

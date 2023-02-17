@@ -12,7 +12,7 @@ void Mean::update(double next)
 
 double Mean::eval() const
 {
-    return m_sum / m_count;
+    return m_sum / (double)m_count;
 }
 
 const char *Mean::name() const
