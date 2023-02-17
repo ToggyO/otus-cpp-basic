@@ -5,7 +5,7 @@
 
 const char *max_name = "max";
 
-Max::Max() : m_max(std::numeric_limits<double>::min()) {}
+Max::Max() : m_max(std::numeric_limits<double>::lowest()) {}
 
 void Max::update(double next)
 {

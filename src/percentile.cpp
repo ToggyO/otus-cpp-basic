@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cmath>
+#include <iomanip>
 #include <iostream>
 #include <sstream>
 
@@ -8,7 +9,7 @@
 const char *percentile_name = "pct";
 
 Percentile::Percentile(double percent)
-    : m_percent(percent), m_name(initializeName(percent)) {}
+    : m_percent(percent), m_name(makeName(percent)) {}
 
 void Percentile::update(double next)
 {
@@ -22,41 +23,31 @@ double Percentile::eval() const
         return 0;
     }
 
-    std::vector<double> temp(m_numbers);
-    std::sort(temp.begin(), temp.end());
+    std::sort(m_numbers.begin(), m_numbers.end());
 
-    auto count = (double)temp.size();
-    double raw_index = m_percent / 100 * count; // Может быть переполнение? Как правильно работать с size_t вместе с другими числовыми типами?
+    auto count = m_numbers.size();
+    double raw_index = m_percent / 100 * (double)count;
 
-    int index = int(std::round(raw_index));
+    size_t index = int(std::round(raw_index));
     if (index > count - 1)
     {
         index = int(count - 1);
     }
 
-    return temp[index];
+    return m_numbers[index];
 }
 
 const char *Percentile::name() const
 {
-    // Знаю, что это неправильно. Но не могу понятЬ как сделать лучше
-    std::stringstream ss;
-    ss << percentile_name << m_percent;
-    return ss.str().c_str();
+   return m_name.c_str();
 }
 
-const char *Percentile::initializeName(double percent)
+std::string Percentile::makeName(double percent) const
 {
-    // ВОПРОС: Если я не првожу такую же операцию в методе name(), то m_name будет пустой
-    // Инициализаация не работает. Почему?
-
-    // ВОПРОС: как лучше объединить char* и int?
     std::stringstream ss;
-    ss << percentile_name << percent;
-
-    auto k = ss.str();
-    auto c = k.c_str();
-    m_name = c;
-
-    return m_name;
+    ss << percentile_name << " ";
+    ss << std::fixed;
+    ss << std::setprecision(1);
+    ss << percent;
+    return ss.str();
 }

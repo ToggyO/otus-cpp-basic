@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstddef>
+
 #include "statistics.hpp"
 
 class Mean : public IStatistics
@@ -10,10 +12,7 @@ class Mean : public IStatistics
         double eval() const override;
         const char * name() const override;
 
-    protected:
-        int getCount() const { return m_count; };
-
     private:
-        int m_count;
+        std::size_t m_count;
         double m_sum;
 };

@@ -13,8 +13,9 @@ class Percentile : public IStatistics
         const char * name() const override;
 
     private:
-        const char *initializeName(double percent);
+        std::string makeName(double percent) const;
+
+        mutable std::vector<double> m_numbers;
         double m_percent;
-        std::vector<double> m_numbers;
-        const char* m_name;
+        std::string m_name;
 };
