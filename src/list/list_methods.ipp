@@ -23,6 +23,11 @@ template <class T>
 template <class... Args>
 void List<T>::emplace_back(Args&&... args)
 {
+    if (m_size >= m_cap)
+    {
+        resize(calc_capacity());
+    }
+
     // TODO: проверка на доступность места
     new (m_arr + m_size) T(args...);
     m_size++;

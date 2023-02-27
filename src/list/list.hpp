@@ -66,35 +66,47 @@ class List
 
         const T& operator[](size_t index) const;
 
-    protected:
+protected:
         size_t m_size;
         size_t m_cap;
-        T *m_arr;
-        int id;
+        T* m_arr;
 
         const static size_t m_default_cap = 4;
-        constexpr static float m_coefficients[3] = {1.5, 1.6, 2};
-
-//        enum class Coefficients
-//        {
-//            Double = 2,
-//            OnePointEight = 1.8,
-//            OnePointSix = 1.6,
-//            OnePointFive = 1.5,
-//            OnePointFour = 1.4,
+    // TODO: check
+//        enum class GrowthCoefficients
+//            Tiny = 2,
+//            Small = 1.8,
+//            Medium = 1.6,
+//            Large = 1.5,
 //        };
 //
 //        enum class LimitValues
 //        {
-//            Small = 64,
-//            Medium = 512,
-//            Large = 2048,
-//            Huge = 4096,
+//            Tiny = 64,
+//            Small = 512,
+//            Medium = 2048,
+//            Large = 4096,
 //        };
+
+        struct GrowthCoefficients
+        {
+            constexpr static float tiny = 2;
+            constexpr static float small = 1.8;
+            constexpr static float medium = 1.6;
+            constexpr static float large = 1.5;
+        };
+
+        struct LimitValues
+        {
+            constexpr static unsigned short tiny = 64;
+            constexpr static unsigned short small = 512;
+            constexpr static unsigned short medium = 2048;
+            constexpr static unsigned short large = 4096;
+        };
 
         void copy(const List<T>&);
         void move(List<T>&& other);
-        void grow(); // TODO
+        size_t calc_capacity();
 };
 
 #include "list_ctors.ipp"

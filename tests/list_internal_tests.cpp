@@ -28,13 +28,21 @@ TEST(TestConstructors, success) {
 }
 
 TEST(TestListResize, success) {
-    int cap = 4;
+    int expected_cap = 4;
     int new_cap = 10;
 
-    List<A> list;
-    ASSERT_EQ(cap, list.cap());
+    List<A> list(1);
+
+    list.emplace_back(1, 2);
+    list.emplace_back(3, 4);
+    list.emplace_back(5, 6);
+    ASSERT_EQ(expected_cap, list.cap());
 
     list.resize(new_cap);
+    ASSERT_EQ(new_cap, list.cap());
+
+    list.emplace_back(7, 8);
+    ASSERT_EQ(4, list.size());
     ASSERT_EQ(new_cap, list.cap());
 }
 

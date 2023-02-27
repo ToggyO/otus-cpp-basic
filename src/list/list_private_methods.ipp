@@ -32,8 +32,15 @@ void List<T>::move(List<T>&& other)
 }
 
 template <class T>
-void List<T>::grow()
+size_t List<T>::calc_capacity()
 {
-    // TODO:
+    float coefficient = GrowthCoefficients::tiny;
 
+    if (m_size > LimitValues::tiny && m_size <= LimitValues::small) { coefficient = GrowthCoefficients::small; }
+
+    if (m_size > LimitValues::small && m_size <= LimitValues::medium) { coefficient = GrowthCoefficients::medium; }
+
+    if (m_size > LimitValues::large) { coefficient = GrowthCoefficients::large; }
+
+    return m_cap * coefficient;
 }
