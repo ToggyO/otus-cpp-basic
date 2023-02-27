@@ -8,7 +8,7 @@ void List<T>::resize(size_t new_cap)
         return;
     }
     // TODO: check on duplicate
-    T* temp = (T*)operator new(sizeof(T) * new_cap);
+    T* temp = (T*)::operator new(sizeof(T) * new_cap);
     for (int i = 0; i < m_size; ++i)
     {
         *(temp + i) = std::move(m_arr[i]);
@@ -16,5 +16,14 @@ void List<T>::resize(size_t new_cap)
 
     m_cap = new_cap;
     std::swap(m_arr, temp);
-    operator delete(temp);
+    ::operator delete(temp);
+}
+
+template <class T>
+template <class... Args>
+void List<T>::emplace_back(Args&&... args)
+{
+    // TODO: проверка на доступность места
+    new (m_arr + m_size) T(args...);
+    m_size++;
 }

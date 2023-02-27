@@ -18,7 +18,17 @@ class List
         // Destructor
         virtual ~List()
         {
-            delete[] m_arr;
+            // TODO: remove
+            std::cout << "~List()" << std::endl;
+            //
+            try
+            {
+                ::operator delete(m_arr);
+            }
+            catch (const std::exception& e)
+            {
+                std::cerr << "ERR: " << e.what() << std::endl;
+            }
         }
 
         // Methods
@@ -30,9 +40,8 @@ class List
 
         void push_back(const T &&);
 
-        void emplace_back(const T &);
-
-        void emplace_back(const T &&);
+        template<class... Args>
+        void emplace_back(Args&&...);
 
         void erase(size_t pos); // TODO: сменить тип pos на iterator
     //        void erase(range); // TODO: версия для рейнджа
@@ -40,10 +49,18 @@ class List
 
         size_t size() { return m_size; }
 
-        // Operators
-        List<T>& operator=(const T &);
+        size_t cap() { return m_cap; }
 
-        List<T>& operator=(const T &&);
+        // TODO: тест
+        T* get_arr() const
+        {
+            return m_arr;
+        }
+
+        // Operators
+        List<T>& operator=(const List<T>&);
+
+        List<T>& operator=(const List<T>&&);
 
         T& operator[](size_t index);
 
@@ -53,6 +70,7 @@ class List
         size_t m_size;
         size_t m_cap;
         T *m_arr;
+        int id;
 
         const static size_t m_default_cap = 4;
         constexpr static float m_coefficients[3] = {1.5, 1.6, 2};
