@@ -8,11 +8,16 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 set(COMMON_SRCS
-        ../src/list/list_ctors.ipp
     ../src/list/list.hpp
+    ../src/iterator/iterator.hpp
+    ../src/iterator/const_iterator.hpp
 )
 
-add_executable(tests list_internal_tests.cpp ${COMMON_SRCS})
+add_executable(tests
+    list_internal_tests.cpp
+    iterator_tests.cpp
+    ${COMMON_SRCS}
+)
 target_include_directories(tests PUBLIC
         ${CMAKE_SOURCE_DIR}/src
 )

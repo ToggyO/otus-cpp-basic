@@ -60,7 +60,7 @@ class List
         // Operators
         List<T>& operator=(const List<T>&);
 
-        List<T>& operator=(const List<T>&&);
+        List<T>& operator=(List<T>&&) noexcept;
 
         T& operator[](size_t index);
 

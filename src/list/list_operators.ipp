@@ -22,7 +22,7 @@ List<T>& List<T>::operator=(const List<T>& other)
 }
 
 template <class T>
-List<T>& List<T>::operator=(const List<T>&& other)
+List<T>& List<T>::operator=(List<T>&& other) noexcept
 {
     if (this != other)
     {

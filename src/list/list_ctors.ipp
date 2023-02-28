@@ -1,11 +1,11 @@
-template <class T>
+template <typename T>
 List<T>::List() : List(m_default_cap) {}
 
-template <class T>
+template<typename T>
 List<T>::List(size_t count)
     : m_size(0), m_cap(count), m_arr((T*)operator new(sizeof(T) * m_default_cap)) {}
 
-template <class T>
+template <typename T>
 List<T>::List(const List<T>& other)
 {
     m_size = other.m_size;
