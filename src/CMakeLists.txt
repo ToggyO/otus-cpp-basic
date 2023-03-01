@@ -5,8 +5,8 @@ project(06.homework.src CXX)
 add_executable(containers
     main.cpp
     list/list.hpp
-    iterator/iterator.hpp
-    iterator/const_iterator.hpp
+        iterator/sequentual/iterator.hpp
+        iterator/sequentual/const_iterator.hpp
 )
 
 set_target_properties(containers PROPERTIES

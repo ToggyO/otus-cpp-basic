@@ -1,12 +1,12 @@
 template <class T>
-ConstIterator<T> ConstIterator<T>::operator++()
+ConstIterator<T>& ConstIterator<T>::operator++()
 {
     m_ptr++;
     return *this;
 }
 
 template <class T>
-ConstIterator<T> ConstIterator<T>::operator++(int junk)
+ConstIterator<T>& ConstIterator<T>::operator++(int junk)
 {
     ConstIterator<T> tmp = *this;
     ++(*this);
@@ -27,13 +27,13 @@ const T* ConstIterator<T>::operator->()
 }
 
 template <class T>
-bool ConstIterator<T>::operator==(const T& other)
+bool ConstIterator<T>::operator==(const ConstIterator<T>& other)
 {
     return m_ptr == other.m_ptr;
 }
 
 template <class T>
-bool ConstIterator<T>::operator!=(const T& other)
+bool ConstIterator<T>::operator!=(const ConstIterator<T>& other)
 {
     return m_ptr != other.m_ptr;
 }

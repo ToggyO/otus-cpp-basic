@@ -2,6 +2,9 @@
 
 #include <cstddef>
 
+#include "../iterator/sequentual/iterator.hpp"
+#include "../iterator/sequentual/const_iterator.hpp"
+
 template <typename T>
 class List
 {
@@ -51,11 +54,14 @@ class List
 
         size_t cap() { return m_cap; }
 
-        // TODO: тест
-        T* get_arr() const
-        {
-            return m_arr;
-        }
+        // Iterator
+        Iterator<T> begin();
+
+        Iterator<T> end();
+
+        ConstIterator<T> cbegin();
+
+        ConstIterator<T> cend();
 
         // Operators
         List<T>& operator=(const List<T>&);
@@ -72,21 +78,7 @@ protected:
         T* m_arr;
 
         const static size_t m_default_cap = 4;
-    // TODO: check
-//        enum class GrowthCoefficients
-//            Tiny = 2,
-//            Small = 1.8,
-//            Medium = 1.6,
-//            Large = 1.5,
-//        };
-//
-//        enum class LimitValues
-//        {
-//            Tiny = 64,
-//            Small = 512,
-//            Medium = 2048,
-//            Large = 4096,
-//        };
+
 
         struct GrowthCoefficients
         {
@@ -113,3 +105,4 @@ protected:
 #include "list_operators.ipp"
 #include "list_private_methods.ipp"
 #include "list_methods.ipp"
+#include "list_iterator.ipp"

@@ -8,9 +8,19 @@ struct A
 
     int a;
     double b;
+
+    bool operator==(const A& other) const
+    {
+        return a == other.a && b == other.b;
+    }
+
+    bool operator!=(const A& other) const
+    {
+        return a != other.a || b != other.b;
+    }
 };
 
-TEST(TestConstructors, success) {
+TEST(TestConstructors, Success) {
     int size = 0;
     int cap = 5;
 
@@ -27,7 +37,7 @@ TEST(TestConstructors, success) {
     ASSERT_EQ(size, list2.size());
 }
 
-TEST(TestListResize, success) {
+TEST(TestListResize, Success) {
     int expected_cap = 4;
     int new_cap = 10;
 
@@ -46,8 +56,23 @@ TEST(TestListResize, success) {
     ASSERT_EQ(new_cap, list.cap());
 }
 
+TEST(TestIndexator, Success) {
+    int val = 5;
+    List<int> list;
+
+    list[0] = val;
+    ASSERT_EQ(val, list[0]);
+}
+
+TEST(TestIndexator, ThrowsIndexOutOfRange) {
+    int val = 5;
+    List<int> list;
+
+    EXPECT_THROW(list[4] = val, std::out_of_range);
+}
+
 // TODO: несостоятельный тест
-TEST(TestEmplaceBack, success) {
+TEST(TestEmplaceBack, Success) {
     List<A> list;
 
     list.emplace_back(1, 2);
@@ -56,11 +81,7 @@ TEST(TestEmplaceBack, success) {
 
     ASSERT_EQ(3, list.size());
 
-    A* arr = list.get_arr();
-    A* start = arr;
-    A* end = arr + list.size();
-    for (auto i = start; i != end ; i++)
-    {
-        std::cout << "a = " << i->a << " " << "b = " << i->b << std::endl;
-    }
+    auto k = list[0];
+    ASSERT_EQ(A{1, 2}, )
+    
 }

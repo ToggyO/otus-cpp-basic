@@ -41,7 +41,7 @@ List<T>& List<T>::operator=(List<T>&& other) noexcept
 template <class T>
 T& List<T>::operator[](const size_t index)
 {
-    if (index >= m_size)
+    if (index >= m_cap)
     {
         throw std::out_of_range("index is out of range");
     }
@@ -52,7 +52,7 @@ T& List<T>::operator[](const size_t index)
 template <class T>
 const T& List<T>::operator[](const size_t index) const
 {
-    if (index >= m_size)
+    if (index >= m_cap)
     {
         throw std::out_of_range("index is out of range");
     }

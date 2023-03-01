@@ -9,8 +9,8 @@ FetchContent_MakeAvailable(googletest)
 
 set(COMMON_SRCS
     ../src/list/list.hpp
-    ../src/iterator/iterator.hpp
-    ../src/iterator/const_iterator.hpp
+        ../src/iterator/sequentual/iterator.hpp
+        ../src/iterator/sequentual/const_iterator.hpp
 )
 
 add_executable(tests

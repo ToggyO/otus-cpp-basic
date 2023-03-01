@@ -1,17 +1,37 @@
 #include <gtest/gtest.h>
 
-#include "iterator/iterator.hpp"
+#include "iterator/sequentual/iterator.hpp"
+#include "iterator/sequentual/const_iterator.hpp"
 
-// TODO: add descr
-TEST(TestIterator, sad) {
+TEST(TestIterator, IteratesProperlyAndAllowToMutate) {
+    int replace = 17;
     int a[5] { 1, 2, 3, 4, 5 };
     int* ptr = a;
 
     auto start = Iterator<int>(ptr);
     auto end = Iterator<int>(ptr + 5);
-
-    for (Iterator<int> iter = start; iter != end; ++iter)
+    int i = 0;
+    for (Iterator<int> iter = start ; iter != end; ++iter, ++i)
     {
-        
+        ASSERT_EQ(a[i], *iter);
+        if (i == 2)
+        {
+            *iter = replace;
+        }
+    }
+
+    ASSERT_EQ(replace, a[2]);
+}
+
+TEST(TestConstIterator, IteratesProperly) {
+    int a[5] { 1, 2, 3, 4, 5 };
+    int* ptr = a;
+
+    auto start = ConstIterator<int>(ptr);
+    auto end = ConstIterator<int>(ptr + 5);
+    int i = 0;
+    for (ConstIterator<int> iter = start ; iter != end; ++iter, ++i)
+    {
+        ASSERT_EQ(a[i], *iter);
     }
 }
