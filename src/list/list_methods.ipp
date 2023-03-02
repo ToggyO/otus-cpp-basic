@@ -28,7 +28,31 @@ void List<T>::emplace_back(Args&&... args)
         resize(calc_capacity());
     }
 
-    // TODO: проверка на доступность места
     new (m_arr + m_size) T(args...);
+    m_size++;
+}
+
+template <class T>
+void List<T>::push_back(const T& obj)
+{
+    try
+    {
+        push_back(std::move(obj));
+    }
+    catch (std::exception& e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+}
+
+template <class T>
+void List<T>::push_back(T&& obj)
+{
+    if (m_size >= m_cap)
+    {
+        resize(calc_capacity());
+    }
+
+    *(m_arr + m_size) = std::move(obj); // Стоит ли здесь использовать move? Или, раз obj уже rvalue, то просто присвоить obj?
     m_size++;
 }

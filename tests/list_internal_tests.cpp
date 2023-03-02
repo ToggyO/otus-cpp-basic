@@ -71,7 +71,6 @@ TEST(TestIndexator, ThrowsIndexOutOfRange) {
     EXPECT_THROW(list[4] = val, std::out_of_range);
 }
 
-// TODO: несостоятельный тест
 TEST(TestEmplaceBack, Success) {
     List<A> list;
 
@@ -81,7 +80,25 @@ TEST(TestEmplaceBack, Success) {
 
     ASSERT_EQ(3, list.size());
 
-    auto k = list[0];
-    ASSERT_EQ(A{1, 2}, )
+    A a = A{1, 2};
+    ASSERT_EQ(a, list[0]);
     
+    a = A{3, 4};
+    ASSERT_EQ(a, list[1]);
+
+    a = A{5, 6};
+    ASSERT_EQ(a, list[2]);
+}
+
+TEST(TestPushBack, Success) {
+    List<A> list;
+
+    // Move version
+    list.push_back(A{1, 2});
+    ASSERT_EQ(list[0], (A{1, 2}));
+
+    // Copy version
+    A a = A{3, 4};
+    list.push_back(a);
+    ASSERT_EQ(list[1], a);
 }
