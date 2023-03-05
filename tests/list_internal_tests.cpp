@@ -9,6 +9,25 @@ struct A
     int a;
     double b;
 
+    A(const A& other)
+    {
+        a = other.a;
+        b = other.b;
+    }
+
+    ~A() = default;
+
+    A& operator=(const A& other)
+    {
+        if (*this == other)
+        {
+            return *this;
+        }
+
+        a = other.a;
+        b = other.b;
+    }
+
     bool operator==(const A& other) const
     {
         return a == other.a && b == other.b;
@@ -101,4 +120,33 @@ TEST(TestPushBack, Success) {
     A a = A{3, 4};
     list.push_back(a);
     ASSERT_EQ(list[1], a);
+
+    a.a = 10;
+    std::cout << list[1].a << std::endl;
+}
+
+TEST(TestInsert, Success) {
+    List<A> list;
+
+    list.emplace_back(1, 2);
+    list.emplace_back(3, 4);
+    list.emplace_back(5, 6);
+
+    // Move version
+    list.insert(list.begin() + 1, A{7, 8});
+    ASSERT_EQ(list.size(), 4);
+    ASSERT_EQ(list[0], (A{1, 2}));
+    ASSERT_EQ(list[1], (A{7, 8}));
+    ASSERT_EQ(list[2], (A{3, 4}));
+    ASSERT_EQ(list[3], (A{5, 6}));
+
+    // Copy version
+    A a = A{11, 12};
+    list.insert(list.begin() + 1, a);
+    ASSERT_EQ(list.size(), 5);
+    ASSERT_EQ(list[0], (A{1, 2}));
+    ASSERT_EQ(list[1], a);
+    ASSERT_EQ(list[2], (A{7, 8}));
+    ASSERT_EQ(list[3], (A{3, 4}));
+    ASSERT_EQ(list[4], (A{5, 6}));
 }

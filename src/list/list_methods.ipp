@@ -35,14 +35,12 @@ void List<T>::emplace_back(Args&&... args)
 template <class T>
 void List<T>::push_back(const T& obj)
 {
-    try
+    if (m_size >= m_cap)
     {
-        push_back(std::move(obj));
+        resize(calc_capacity());
     }
-    catch (std::exception& e)
-    {
-        std::cout << e.what() << std::endl;
-    }
+
+    new (m_arr + m_size) T(obj);
 }
 
 template <class T>
@@ -53,6 +51,47 @@ void List<T>::push_back(T&& obj)
         resize(calc_capacity());
     }
 
-    *(m_arr + m_size) = std::move(obj); // Стоит ли здесь использовать move? Или, раз obj уже rvalue, то просто присвоить obj?
+//    new (m_arr + m_size) T(std::move(obj));
+    *(m_arr + m_size) = std::move(obj);
     m_size++;
+}
+
+template <class T>
+void List<T>::insert(Iterator<T> pos, const T& obj)
+{
+    insert(pos, std::move(T(obj)));
+}
+
+template <class T>
+void List<T>::insert(Iterator<T> pos, T&& obj)
+{
+    if (m_size >= m_cap)
+    {
+        auto items_from_start_count = pos - begin();
+        resize(calc_capacity());
+        pos = begin() + items_from_start_count;
+    }
+
+    auto start = end();
+    auto end_position = pos - 1;
+    for (auto i = start; i != end_position ; --i)
+    {
+        auto prev = i - 1;
+        *i = *prev;
+    }
+
+    *pos = obj;
+    m_size++;
+}
+
+template <class T>
+void erase(Iterator<T> first, Iterator<T> last)
+{
+
+}
+
+template <class T>
+void erase(ConstIterator<T> first, ConstIterator<T> last)
+{
+
 }

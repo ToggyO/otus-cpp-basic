@@ -11,7 +11,6 @@ List<T>& List<T>::operator=(const List<T>& other)
 
     ::operator delete(m_arr);
 
-    // TODO: check on duplicate
     m_arr = (T*)::operator new(sizeof(T) * m_cap);
     for (int i = 0; i < m_size; ++i)
     {

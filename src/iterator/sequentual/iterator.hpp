@@ -10,6 +10,11 @@ class Iterator
 
         Iterator<T>& operator++();
         Iterator<T>& operator++(int);
+        Iterator<T>& operator--();
+        Iterator<T>& operator--(int);
+        Iterator<T> operator+(int);
+        Iterator<T> operator-(int);
+        size_t operator-(const Iterator<T>&);
         T& operator*();
         T* operator->();
         bool operator==(const Iterator<T>&);

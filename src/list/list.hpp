@@ -35,7 +35,9 @@ class List
         }
 
         // Methods
-        void insert(size_t pos, const T&); // TODO: сменить тип pos на iterator
+        void insert(Iterator<T>, const T&);
+
+        void insert(Iterator<T>, T&&);
 
         void emplace(size_t pos, const T&); // TODO: сменить тип pos на iterator
 
@@ -46,9 +48,15 @@ class List
         template<class... Args>
         void emplace_back(Args&&...);
 
-        void erase(size_t pos); // TODO: сменить тип pos на iterator
-    //        void erase(range); // TODO: версия для рейнджа
-        void resize(size_t count);
+        void erase(Iterator<T> pos);
+
+        void erase(ConstIterator<T> pos);
+
+        void erase(Iterator<T> first, Iterator<T> last);
+
+        void erase(ConstIterator<T> first, ConstIterator<T> last);
+
+        void resize(size_t new_cap);
 
         size_t size() { return m_size; }
 
@@ -79,7 +87,6 @@ protected:
 
         const static size_t m_default_cap = 4;
 
-
         struct GrowthCoefficients
         {
             constexpr static float tiny = 2;
@@ -98,6 +105,7 @@ protected:
 
         void copy(const List<T>&);
         void move(List<T>&& other);
+        void pop_back();
         size_t calc_capacity();
 };
 
