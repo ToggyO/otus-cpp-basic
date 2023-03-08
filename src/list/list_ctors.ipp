@@ -1,5 +1,5 @@
 template <typename T>
-List<T>::List() : List(m_default_cap) {}
+List<T>::List() : List(m_default_cap) {} // TODO: создават ьс нулевым m_cap в дефолтном коснтрукторе
 
 template<typename T>
 List<T>::List(size_t count)

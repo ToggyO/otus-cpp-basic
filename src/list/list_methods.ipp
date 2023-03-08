@@ -7,11 +7,11 @@ void List<T>::resize(size_t new_cap)
     {
         return;
     }
-    // TODO: check on duplicate
+
     T* temp = (T*)::operator new(sizeof(T) * new_cap);
-    for (int i = 0; i < m_size; ++i)
+    for (size_t i = 0; i < m_size; ++i)
     {
-        *(temp + i) = std::move(m_arr[i]);
+        new (temp + i) T(std::move(*(m_arr + i)));
     }
 
     m_cap = new_cap;
@@ -72,6 +72,13 @@ void List<T>::insert(Iterator<T> pos, T&& obj)
         pos = begin() + items_from_start_count;
     }
 
+    // TODO: test case
+    if (pos == end())
+    {
+        push_back(obj);
+        return;
+    }
+
     auto start = end();
     auto end_position = pos - 1;
     for (auto i = start; i != end_position ; --i)
@@ -85,13 +92,24 @@ void List<T>::insert(Iterator<T> pos, T&& obj)
 }
 
 template <class T>
-void erase(Iterator<T> first, Iterator<T> last)
+void List<T>::erase(Iterator<T> pos)
 {
 
 }
 
 template <class T>
-void erase(ConstIterator<T> first, ConstIterator<T> last)
+void List<T>::erase(Iterator<T> first, Iterator<T> last)
 {
+    auto old_end = end();
+    for (auto iter = first; iter != last; ++iter)
+    {
+        (*iter).~T();
+        --m_size;
+    }
 
+    auto current_remain_element_position = last + 1;
+    for (auto iter = current_remain_element_position; iter != old_end; ++iter)
+    {
+        *(iter) = *(current_remain_element_position);
+    }
 }

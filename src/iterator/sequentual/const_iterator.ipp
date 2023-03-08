@@ -29,13 +29,13 @@ ConstIterator<T>& ConstIterator<T>::operator--(int junk)
 }
 
 template <class T>
-ConstIterator<T> ConstIterator<T>::operator+(int count)
+ConstIterator<T> ConstIterator<T>::operator+(size_t count)
 {
-    return Iterator<T>(m_ptr + count);
+    return ConstIterator<T>(m_ptr + count);
 }
 
 template <class T>
-ConstIterator<T> ConstIterator<T>::operator-(int count)
+ConstIterator<T> ConstIterator<T>::operator-(size_t count)
 {
     return ConstIterator<T>(m_ptr - count);
 }

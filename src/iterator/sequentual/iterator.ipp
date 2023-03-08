@@ -29,13 +29,13 @@ Iterator<T>& Iterator<T>::operator--(int junk)
 }
 
 template <class T>
-Iterator<T> Iterator<T>::operator+(int count)
+Iterator<T> Iterator<T>::operator+(size_t count)
 {
     return Iterator<T>(m_ptr + count);
 }
 
 template <class T>
-Iterator<T> Iterator<T>::operator-(int count)
+Iterator<T> Iterator<T>::operator-(size_t count)
 {
     return Iterator<T>(m_ptr - count);
 }

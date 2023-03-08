@@ -12,8 +12,8 @@ class Iterator
         Iterator<T>& operator++(int);
         Iterator<T>& operator--();
         Iterator<T>& operator--(int);
-        Iterator<T> operator+(int);
-        Iterator<T> operator-(int);
+        Iterator<T> operator+(size_t);
+        Iterator<T> operator-(size_t);
         size_t operator-(const Iterator<T>&);
         T& operator*();
         T* operator->();

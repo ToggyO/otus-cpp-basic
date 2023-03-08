@@ -44,9 +44,3 @@ size_t List<T>::calc_capacity()
 
     return m_cap * coefficient;
 }
-
-// TODO: remove
-template<typename T>
-void List<T>::pop_back() noexcept {
-    m_data[--m_size].~T();
-}

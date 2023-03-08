@@ -4,6 +4,8 @@
 
 struct A
 {
+    A() = default;
+
     A(int a_, int b_) : a(a_), b(b_) {}
 
     int a;
@@ -15,17 +17,40 @@ struct A
         b = other.b;
     }
 
+    A(A&& other) noexcept
+    {
+        a = other.a;
+        b = other.b;
+
+        other.a = 0;
+        other.b = 0;
+    }
+
     ~A() = default;
 
     A& operator=(const A& other)
     {
-        if (*this == other)
+        if (*this != other)
         {
-            return *this;
+            a = other.a;
+            b = other.b;
         }
 
-        a = other.a;
-        b = other.b;
+        return *this;
+    }
+
+    A& operator=(A&& other) noexcept
+    {
+        if (*this != other)
+        {
+            a = other.a;
+            b = other.b;
+
+            other.a = 0;
+            other.b = 0;
+        }
+
+        return *this;
     }
 
     bool operator==(const A& other) const
@@ -67,12 +92,17 @@ TEST(TestListResize, Success) {
     list.emplace_back(5, 6);
     ASSERT_EQ(expected_cap, list.cap());
 
+
     list.resize(new_cap);
     ASSERT_EQ(new_cap, list.cap());
 
     list.emplace_back(7, 8);
     ASSERT_EQ(4, list.size());
     ASSERT_EQ(new_cap, list.cap());
+    ASSERT_EQ(list[0], (A{1, 2}));
+    ASSERT_EQ(list[1], (A{3, 4}));
+    ASSERT_EQ(list[2], (A{5, 6}));
+    ASSERT_EQ(list[3], (A{7, 8}));
 }
 
 TEST(TestIndexator, Success) {
@@ -149,4 +179,35 @@ TEST(TestInsert, Success) {
     ASSERT_EQ(list[2], (A{7, 8}));
     ASSERT_EQ(list[3], (A{3, 4}));
     ASSERT_EQ(list[4], (A{5, 6}));
+}
+
+TEST(TestErase, Success) {
+    List<A> list;
+
+    list.emplace_back(1, 2);
+    list.emplace_back(3, 4);
+    list.emplace_back(5, 6);
+    list.emplace_back(7, 8);
+    list.emplace_back(9, 10);
+    list.emplace_back(11, 12);
+
+    list.pop_first();
+
+    for (auto i = list.cbegin(); i != list.cend(); ++i)
+    {
+        std::cout << i->a << " " <<  i->b << std::endl;
+    }
+
+    list.erase(list.begin() + 1, list.end() - 3);
+    std::cout << std::endl;
+    for (auto i = list.cbegin(); i != list.cend(); ++i)
+    {
+        std::cout << i->a << " " <<  i->b << std::endl;
+    }
+
+    ASSERT_EQ(list.size(), 4);
+    ASSERT_EQ(list[0], (A{1, 2}));
+    ASSERT_EQ(list[1], (A{7, 18}));
+    ASSERT_EQ(list[2], (A{9, 10}));
+    ASSERT_EQ(list[3], (A{11, 12}));
 }

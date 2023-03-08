@@ -10,8 +10,8 @@ class ConstIterator
         ConstIterator<T>& operator++(int);
         ConstIterator<T>& operator--();
         ConstIterator<T>& operator--(int);
-        ConstIterator<T> operator+(int);
-        ConstIterator<T> operator-(int);
+        ConstIterator<T> operator+(size_t);
+        ConstIterator<T> operator-(size_t);
         size_t operator-(const ConstIterator<T>&);
         const T& operator*();
         const T* operator->();

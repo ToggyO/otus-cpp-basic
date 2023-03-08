@@ -80,7 +80,15 @@ class List
 
         const T& operator[](size_t index) const;
 
-protected:
+        void pop_first()
+        {
+            m_arr->~T();
+            std::cout << " 1 " << std::endl;
+            new (m_arr) T();
+            std::cout << " 2 " << std::endl;
+        }
+
+    protected:
         size_t m_size;
         size_t m_cap;
         T* m_arr;
@@ -105,7 +113,6 @@ protected:
 
         void copy(const List<T>&);
         void move(List<T>&& other);
-        void pop_back();
         size_t calc_capacity();
 };
 
