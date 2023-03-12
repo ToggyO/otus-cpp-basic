@@ -12,8 +12,6 @@ class List
         // Ctors
         List();
 
-        explicit List(size_t count);
-
         List(const List<T> &);
 
         List(List<T> &&) noexcept;
@@ -39,7 +37,15 @@ class List
 
         void insert(Iterator<T>, T&&);
 
-        void emplace(size_t pos, const T&); // TODO: сменить тип pos на iterator
+        void insert(ConstIterator<T>, const T&); // TODO:
+
+        void insert(ConstIterator<T>, T&&); // TODO:
+
+        template<class... Args>
+        void emplace(Iterator<T>, Args&&...); // TODO:
+
+        template<class... Args>
+        void emplace(ConstIterator<T>, Args&&...); // TODO:
 
         void push_back(const T &);
 
@@ -56,11 +62,13 @@ class List
 
         void erase(ConstIterator<T> first, ConstIterator<T> last);
 
-        void resize(size_t new_cap);
+        void reserve(size_t new_cap);
 
-        size_t size() { return m_size; }
+        void clear();
 
-        size_t cap() { return m_cap; }
+        size_t size() const { return m_size; }
+
+        size_t cap() const { return m_cap; }
 
         // Iterator
         Iterator<T> begin();
@@ -79,14 +87,6 @@ class List
         T& operator[](size_t index);
 
         const T& operator[](size_t index) const;
-
-        void pop_first()
-        {
-            m_arr->~T();
-            std::cout << " 1 " << std::endl;
-            new (m_arr) T();
-            std::cout << " 2 " << std::endl;
-        }
 
     protected:
         size_t m_size;
@@ -111,9 +111,8 @@ class List
             constexpr static unsigned short large = 4096;
         };
 
-        void copy(const List<T>&);
-        void move(List<T>&& other);
-        size_t calc_capacity();
+        void resize(size_t new_cap);
+        size_t calc_capacity() const;
 };
 
 #include "list_ctors.ipp"

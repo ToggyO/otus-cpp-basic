@@ -8,7 +8,7 @@ Iterator<T>& Iterator<T>::operator++()
 template <class T>
 Iterator<T>& Iterator<T>::operator++(int junk)
 {
-    Iterator<T> tmp = *this;
+    Iterator<T>& tmp = *this;
     ++(*this);
     return tmp;
 }

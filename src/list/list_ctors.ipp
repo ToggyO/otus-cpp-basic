@@ -1,9 +1,6 @@
 template <typename T>
-List<T>::List() : List(m_default_cap) {} // TODO: создават ьс нулевым m_cap в дефолтном коснтрукторе
-
-template<typename T>
-List<T>::List(size_t count)
-    : m_size(0), m_cap(count), m_arr((T*)operator new(sizeof(T) * m_default_cap)) {}
+List<T>::List()
+    : m_size(0), m_cap(0), m_arr((T*)operator new(sizeof(T) * m_default_cap)) {}
 
 template <typename T>
 List<T>::List(const List<T>& other)

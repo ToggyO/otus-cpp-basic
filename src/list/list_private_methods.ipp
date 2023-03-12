@@ -1,38 +1,21 @@
-// TODO: CHECK
 template <class T>
-void List<T>::copy(const List<T>& other)
+void List<T>::resize(size_t new_cap)
 {
-    m_size = other.m_size;
-    m_cap = other.m_cap;
+    if (new_cap <= m_cap) { return; }
 
-//    m_arr = new T[m_cap];
-//    std::copy(other.m_arr, other.m_arr + m_size, m_arr);
-
-    // TODO: check on duplicate
-    T* temp = operator new(sizeof(T) * m_cap);
-    for (int i = 0; i < m_size; ++i)
+    T* temp = (T*)::operator new(sizeof(T) * new_cap);
+    for (size_t i = 0; i < m_size; ++i)
     {
-        *(temp + i) = std::move(m_arr[i]);
+        new (temp + i) T(std::move(*(m_arr + i)));
     }
 
+    m_cap = new_cap;
     std::swap(m_arr, temp);
-    operator delete(temp);
+    ::operator delete(temp);
 }
 
 template <class T>
-void List<T>::move(List<T>&& other)
-{
-    m_size = other.m_size;
-    m_cap = other.m_cap;
-    m_arr = other.m_arr;
-
-    other.m_size = 0;
-    other.m_cap = 0;
-    other.m_arr = nullptr;
-}
-
-template <class T>
-size_t List<T>::calc_capacity()
+size_t List<T>::calc_capacity() const
 {
     float coefficient = GrowthCoefficients::tiny;
 
@@ -41,6 +24,8 @@ size_t List<T>::calc_capacity()
     if (m_size > LimitValues::small && m_size <= LimitValues::medium) { coefficient = GrowthCoefficients::medium; }
 
     if (m_size > LimitValues::large) { coefficient = GrowthCoefficients::large; }
+
+    if (m_cap <= 0) { return (size_t)m_default_cap; }
 
     return m_cap * coefficient;
 }

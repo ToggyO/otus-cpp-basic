@@ -1,25 +1,6 @@
 #include <new>
 
 template <class T>
-void List<T>::resize(size_t new_cap)
-{
-    if (new_cap <= m_cap)
-    {
-        return;
-    }
-
-    T* temp = (T*)::operator new(sizeof(T) * new_cap);
-    for (size_t i = 0; i < m_size; ++i)
-    {
-        new (temp + i) T(std::move(*(m_arr + i)));
-    }
-
-    m_cap = new_cap;
-    std::swap(m_arr, temp);
-    ::operator delete(temp);
-}
-
-template <class T>
 template <class... Args>
 void List<T>::emplace_back(Args&&... args)
 {
@@ -41,6 +22,7 @@ void List<T>::push_back(const T& obj)
     }
 
     new (m_arr + m_size) T(obj);
+    m_size++;
 }
 
 template <class T>
@@ -51,6 +33,7 @@ void List<T>::push_back(T&& obj)
         resize(calc_capacity());
     }
 
+    // TODO: remove
 //    new (m_arr + m_size) T(std::move(obj));
     *(m_arr + m_size) = std::move(obj);
     m_size++;
@@ -92,24 +75,72 @@ void List<T>::insert(Iterator<T> pos, T&& obj)
 }
 
 template <class T>
-void List<T>::erase(Iterator<T> pos)
+template <class... Args>
+void List<T>::emplace(Iterator<T> pos, Args&&... args)
 {
-
+    insert(pos, std::move(T(args)));
 }
+
+template <class T>
+template <class... Args>
+void List<T>::emplace(ConstIterator<T> pos, Args&&... args)
+{
+    insert(pos, std::move(T(obj)));
+}
+
+template <class T>
+void List<T>::erase(ConstIterator<T> pos) { this->erase(pos, pos + 1); }
+
+template <class T>
+void List<T>::erase(ConstIterator<T> first, ConstIterator<T> last)
+{
+    erase((Iterator<T>)first, (Iterator<T>)last);
+}
+
+template <class T>
+void List<T>::erase(Iterator<T> pos) { this->erase(pos, pos + 1); }
 
 template <class T>
 void List<T>::erase(Iterator<T> first, Iterator<T> last)
 {
-    auto old_end = end();
-    for (auto iter = first; iter != last; ++iter)
+    auto begin = this->begin();
+    auto end = this->end();
+
+    if (first == last) { return; }
+
+    if (first == begin && last == end)
     {
-        (*iter).~T();
-        --m_size;
+        return clear();
     }
 
-    auto current_remain_element_position = last + 1;
-    for (auto iter = current_remain_element_position; iter != old_end; ++iter)
+    size_t remove_count = last - first;
+    for (auto iter = first; iter != last; ++iter)
     {
-        *(iter) = *(current_remain_element_position);
+        (*first).~T();
     }
+
+    while (last != end)
+    {
+        *first = std::move(*last);
+        first++;
+        last++;
+    }
+
+    m_size -= remove_count;
+}
+
+template <class T>
+void List<T>::clear()
+{
+    ::operator delete(m_arr);
+
+    m_size = 0;
+    m_cap = 0;
+    m_arr = (T*)operator new(0);
+}
+
+template <class T>
+void List<T>::reserve(size_t new_cap)
+{
+    resize(new_cap);
 }

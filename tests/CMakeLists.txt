@@ -9,11 +9,12 @@ FetchContent_MakeAvailable(googletest)
 
 set(COMMON_SRCS
     ../src/list/list.hpp
-        ../src/iterator/sequentual/iterator.hpp
-        ../src/iterator/sequentual/const_iterator.hpp
+    ../src/iterator/sequentual/iterator.hpp
+    ../src/iterator/sequentual/const_iterator.hpp
 )
 
 add_executable(tests
+    test_struct.hpp
     list_internal_tests.cpp
     iterator_tests.cpp
     ${COMMON_SRCS}

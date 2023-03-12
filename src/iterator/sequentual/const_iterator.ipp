@@ -8,7 +8,7 @@ ConstIterator<T>& ConstIterator<T>::operator++()
 template <class T>
 ConstIterator<T>& ConstIterator<T>::operator++(int junk)
 {
-    ConstIterator<T> tmp = *this;
+    ConstIterator<T>& tmp = *this;
     ++(*this);
     return tmp;
 }
