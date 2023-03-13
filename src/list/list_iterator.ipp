@@ -1,23 +1,49 @@
 template <typename T>
-Iterator<T> List<T>::begin()
+typename List<T>::Iterator List<T>::begin()
 {
-    return Iterator<T>(m_arr);
+    return Iterator(m_arr);
 }
 
 template <typename T>
-Iterator<T> List<T>::end()
+typename List<T>::Iterator List<T>::end()
 {
-    return Iterator<T>(m_arr + m_size);
+    return Iterator(m_arr + m_size);
 }
 
 template <typename T>
-ConstIterator<T> List<T>::cbegin()
+typename List<T>::ConstIterator List<T>::cbegin()
 {
-    return ConstIterator<T>(m_arr);
+    return ConstIterator(m_arr);
 }
 
 template <typename T>
-ConstIterator<T> List<T>::cend()
+typename List<T>::ConstIterator List<T>::cend()
 {
-    return ConstIterator<T>(m_arr + m_size);
+    return ConstIterator(m_arr + m_size);
 }
+
+
+// TODO: remove
+//template <typename T>
+//Iterator<T> List<T>::begin()
+//{
+//    return Iterator<T>(m_arr);
+//}
+//
+//template <typename T>
+//Iterator<T> List<T>::end()
+//{
+//    return Iterator<T>(m_arr + m_size);
+//}
+//
+//template <typename T>
+//ConstIterator<T> List<T>::cbegin()
+//{
+//    return ConstIterator<T>(m_arr);
+//}
+//
+//template <typename T>
+//ConstIterator<T> List<T>::cend()
+//{
+//    return ConstIterator<T>(m_arr + m_size);
+//}

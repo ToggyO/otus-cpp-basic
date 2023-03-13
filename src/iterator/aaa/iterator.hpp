@@ -1,7 +1,5 @@
 #pragma once
 
-#include "const_iterator.hpp"
-
 template <typename T>
 class Iterator
 {
@@ -22,6 +20,9 @@ class Iterator
 
     private:
         T* m_ptr;
+
+        // TODO: remove
+        const T* m_get_ptr(const Iterator<T>&);
 };
 
 #include "iterator.ipp"

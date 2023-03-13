@@ -1,5 +1,5 @@
 template <class T>
-void List<T>::resize(size_t new_cap)
+void List<T>::m_resize(size_t new_cap)
 {
     if (new_cap <= m_cap) { return; }
 
@@ -15,7 +15,7 @@ void List<T>::resize(size_t new_cap)
 }
 
 template <class T>
-size_t List<T>::calc_capacity() const
+size_t List<T>::m_calc_capacity() const
 {
     float coefficient = GrowthCoefficients::tiny;
 
@@ -29,3 +29,78 @@ size_t List<T>::calc_capacity() const
 
     return m_cap * coefficient;
 }
+
+template <class T>
+void List<T>::m_resize_and_restore_iterator(Iterator& pos)
+{
+    if (m_size >= m_cap)
+    {
+        auto items_from_start_count = pos - begin();
+        m_resize(m_calc_capacity());
+        pos = begin() + items_from_start_count;
+    }
+}
+
+template <class T>
+void List<T>::m_replace_before_insert(Iterator pos)
+{
+    auto end_position = pos;
+    for (auto i = end(); i != end_position ; --i)
+    {
+        auto prev = i - 1;
+        *i = *prev;
+    }
+}
+
+template <class T>
+void List<T>::m_erase(IteratorBase<T> first, IteratorBase<T> last)
+{
+    auto begin = this->begin();
+    auto end = this->end();
+
+    if (first == last) { return; }
+
+    if (first == begin && last == end)
+    {
+        return clear();
+    }
+
+    size_t remove_count = last - first;
+    for (auto iter = first; iter != last; ++iter)
+    {
+        (*first).~T();
+    }
+
+    while (last != end)
+    {
+        *first = std::move(*last);
+        first++;
+        last++;
+    }
+
+    m_size -= remove_count;
+}
+
+
+// TODO: remove
+//template <class T>
+//void List<T>::m_resize_and_restore_iterator(Iterator<T>& pos)
+//{
+//    if (m_size >= m_cap)
+//    {
+//        auto items_from_start_count = pos - begin();
+//        m_resize(m_calc_capacity());
+//        pos = begin() + items_from_start_count;
+//    }
+//}
+//
+//template <class T>
+//void List<T>::m_replace_before_insert(Iterator<T> pos)
+//{
+//    auto end_position = pos;
+//    for (auto i = end(); i != end_position ; --i)
+//    {
+//        auto prev = i - 1;
+//        *i = *prev;
+//    }
+//}

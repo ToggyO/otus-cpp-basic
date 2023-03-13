@@ -92,7 +92,6 @@ TEST(TestPushBack, Success) {
     ASSERT_EQ(list[1], a);
 
     a.a = 10;
-    std::cout << list[1].a << std::endl;
 }
 
 TEST(TestInsert, Success) {
@@ -119,6 +118,39 @@ TEST(TestInsert, Success) {
     ASSERT_EQ(list[2], (A{7, 8}));
     ASSERT_EQ(list[3], (A{3, 4}));
     ASSERT_EQ(list[4], (A{5, 6}));
+
+    // if pos == end()
+    list.insert(list.end(), A{33, 44});
+    ASSERT_EQ(list.size(), 6);
+    ASSERT_EQ(list[5], (A{33, 44}));
+}
+
+TEST(TestEmplace, Success) {
+    List<A> list;
+
+    list.emplace_back(1, 2);
+    list.emplace_back(3, 4);
+    list.emplace_back(5, 6);
+    list.emplace_back(11, 15);
+
+    list.emplace(list.begin() + 1, 7, 8);
+    ASSERT_EQ(list.size(), 5);
+    ASSERT_EQ(list[0], (A{1, 2}));
+    ASSERT_EQ(list[1], (A{7, 8}));
+    ASSERT_EQ(list[2], (A{3, 4}));
+    ASSERT_EQ(list[3], (A{5, 6}));
+    ASSERT_EQ(list[4], (A{11, 15}));
+
+    // if pos == end() - 1
+    list.emplace(list.end() - 1, 111, 222);
+    ASSERT_EQ(list.size(), 6);
+    ASSERT_EQ(list[4], (A{111, 222}));
+    ASSERT_EQ(list[5], (A{11, 15}));
+
+    // if pos == end()
+    list.emplace(list.end(), 33, 44);
+    ASSERT_EQ(list.size(), 7);
+    ASSERT_EQ(list[6], (A{33, 44}));
 }
 
 TEST(TestErase, Success) {

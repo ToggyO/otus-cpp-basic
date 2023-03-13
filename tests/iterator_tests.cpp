@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include "iterator/sequentual/iterator.hpp"
-#include "iterator/sequentual/const_iterator.hpp"
+#include "iterator/aaa/iterator.hpp"
+#include "iterator/aaa/const_iterator.hpp"
 
 TEST(TestIterator, IteratesProperlyAndAllowToMutate) {
     int replace = 17;
