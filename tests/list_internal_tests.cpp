@@ -171,10 +171,11 @@ TEST(TestErase, Success) {
     ASSERT_EQ(list[2], (A{9, 10}));
     ASSERT_EQ(list[3], (A{11, 12}));
 
+    // Const iterator
     list.erase(list.cbegin() + 1, list.cend() - 1);
     ASSERT_EQ(list.size(), 2);
     ASSERT_EQ(list[0], (A{1, 2}));
-    ASSERT_EQ(list[3], (A{11, 12}));
+    ASSERT_EQ(list[1], (A{11, 12}));
 }
 
 TEST(TestClear, Success) {

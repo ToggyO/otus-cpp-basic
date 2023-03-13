@@ -100,8 +100,9 @@ void List<T>::erase(ConstIterator pos) { this->erase(pos, pos + 1); }
 template <class T>
 void List<T>::erase(ConstIterator first, ConstIterator last)
 {
-//    m_erase((IteratorBase<T>)first, (IteratorBase<T>)last);
-    m_erase(dynamic_cast<IteratorBase<T>>(&first), dynamic_cast<IteratorBase<T>>(&last));
+    auto begin_offset = first - cbegin();
+    auto end_offset = cend() - last;
+    m_erase(begin() + begin_offset, end() - end_offset);
 }
 
 template <class T>
@@ -110,7 +111,8 @@ void List<T>::erase(Iterator pos) { this->erase(pos, pos + 1); }
 template <class T>
 void List<T>::erase(Iterator first, Iterator last)
 {
-    m_erase((IteratorBase<T>)first, (IteratorBase<T>)last);
+    m_erase(first, last);
+    // TODO: remove
 //    auto begin = this->begin();
 //    auto end = this->end();
 //
