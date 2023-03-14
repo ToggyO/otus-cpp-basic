@@ -19,6 +19,13 @@ TEST(TestConstructors, Success) {
     List<A> list2(std::move(list1));
     ASSERT_EQ(cap, list2.cap());
     ASSERT_EQ(size, list2.size());
+
+    List<int> list3 { 1, 2, 3 };
+    ASSERT_EQ(list3.cap(), 3);
+    ASSERT_EQ(list3.size(), 3);
+    ASSERT_EQ(list3[0], 1);
+    ASSERT_EQ(list3[1], 2);
+    ASSERT_EQ(list3[2], 3);
 }
 
 TEST(TestListResize, Success) {
@@ -123,6 +130,17 @@ TEST(TestInsert, Success) {
     list.insert(list.end(), A{33, 44});
     ASSERT_EQ(list.size(), 6);
     ASSERT_EQ(list[5], (A{33, 44}));
+
+    // Const iterator move version
+    list.insert(list.cbegin(), A{111, 222});
+    ASSERT_EQ(list.size(), 7);
+    ASSERT_EQ(list[0], (A{111, 222}));
+
+    // Const iterator copy version
+    a = A{123, 456};
+    list.insert(list.cbegin(), a);
+    ASSERT_EQ(list.size(), 8);
+    ASSERT_EQ(list[0], (A{123, 456}));
 }
 
 TEST(TestEmplace, Success) {
@@ -151,6 +169,11 @@ TEST(TestEmplace, Success) {
     list.emplace(list.end(), 33, 44);
     ASSERT_EQ(list.size(), 7);
     ASSERT_EQ(list[6], (A{33, 44}));
+
+    // Const iterator
+    list.emplace(list.cbegin(), 123, 456);
+    ASSERT_EQ(list.size(), 8);
+    ASSERT_EQ(list[0], (A{123, 456}));
 }
 
 TEST(TestErase, Success) {

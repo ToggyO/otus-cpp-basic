@@ -1,18 +1,8 @@
-#include <iostream>
-#include <vector>
-
-struct A
-{
-    A(int a_, int b_) : a(a_), b(b_) {}
-
-    int a;
-    double b;
-};
+#include "hw_tasks/hw_tasks.h"
 
 int main()
 {
-//    std::vector<A> v(5, NULL);
-//    v[0] = A{1, 2};
-//    v.emplace_back(1, 2);
+    test_list();
     return 0;
 }
+

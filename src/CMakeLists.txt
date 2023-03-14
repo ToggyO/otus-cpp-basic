@@ -4,10 +4,10 @@ project(06.homework.src CXX)
 
 add_executable(containers
     main.cpp
-    list/list.hpp
     iterator/sequential/iterator_base.hpp
-#    iterator/sequential/iterator.hpp
-#    iterator/sequential/const_iterator.hpp
+    hw_tasks/hw_tasks.h
+    hw_tasks/test_list.cpp
+    list/list.hpp
 )
 
 set_target_properties(containers PROPERTIES
