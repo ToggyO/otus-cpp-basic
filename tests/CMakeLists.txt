@@ -10,6 +10,7 @@ FetchContent_MakeAvailable(googletest)
 set(COMMON_SRCS
     ../src/list/list.hpp
     ../src/iterator/sequential/iterator_base.hpp
+    ../src/iterator/separated/forward_iterator.hpp
 )
 
 add_executable(tests
@@ -18,7 +19,10 @@ add_executable(tests
     iterator_tests.cpp
     ${COMMON_SRCS}
 )
+
 target_include_directories(tests PUBLIC
         ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/include
 )
+
 target_link_libraries(tests PUBLIC gtest gtest_main)

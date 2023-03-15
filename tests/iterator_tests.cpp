@@ -1,8 +1,10 @@
 #include <gtest/gtest.h>
 
 #include "iterator/sequential/iterator_base.hpp"
+#include "iterator/separated/forward_iterator.hpp"
+#include "node.hpp"
 
-TEST(TestIterator, IteratesProperlyAndAllowToMutate) {
+TEST(TestSequentialIterator, IteratesProperlyAndAllowToMutate) {
     int replace = 17;
     int a[5] { 1, 2, 3, 4, 5 };
     int* ptr = a;
@@ -20,4 +22,24 @@ TEST(TestIterator, IteratesProperlyAndAllowToMutate) {
     }
 
     ASSERT_EQ(replace, a[2]);
+}
+
+TEST(TestSeparatedForwardIterator, IteratesProperlyAndAllowToMutate) {
+    Node<int>* head = new Node<int>(1);
+    Node<int>* current = head;
+
+    for (int i = 2; i <= 4; i++)
+    {
+        current->next = new Node<int>(i);
+        current = current->next;
+    }
+
+    auto start = ForwardIterator<int>(head);
+    auto end = ForwardIterator<int>(nullptr);
+
+    for (auto iter = start; iter != end; ++iter)
+    {
+        std::cout << *iter << std::endl;
+        std::cout << iter-> << std::endl;
+    }
 }
