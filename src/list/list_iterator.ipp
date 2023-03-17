@@ -11,13 +11,13 @@ typename List<T>::Iterator List<T>::end()
 }
 
 template <typename T>
-typename List<T>::ConstIterator List<T>::cbegin()
+const typename List<T>::ConstIterator List<T>::cbegin() const
 {
     return ConstIterator(m_arr);
 }
 
 template <typename T>
-typename List<T>::ConstIterator List<T>::cend()
+const typename List<T>::ConstIterator List<T>::cend() const
 {
     return ConstIterator(m_arr + m_size);
 }

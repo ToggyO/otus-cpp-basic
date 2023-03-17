@@ -47,25 +47,25 @@ size_t IteratorBase<T>::operator-(const IteratorBase<T>& other)
 }
 
 template <class T>
-T& IteratorBase<T>::operator*()
+T& IteratorBase<T>::operator*() const
 {
     return *m_ptr;
 }
 
 template <class T>
-T* IteratorBase<T>::operator->()
+T* IteratorBase<T>::operator->() const
 {
     return m_ptr;
 }
 
 template <class T>
-bool IteratorBase<T>::operator==(const IteratorBase<T>& other)
+bool IteratorBase<T>::operator==(const IteratorBase<T>& other) const
 {
     return m_ptr == other.m_ptr;
 }
 
 template <class T>
-bool IteratorBase<T>::operator!=(const IteratorBase<T>& other)
+bool IteratorBase<T>::operator!=(const IteratorBase<T>& other) const
 {
     return m_ptr != other.m_ptr;
 }

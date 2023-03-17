@@ -23,7 +23,7 @@ public:
     List(List<T> &&) noexcept;
 
     // Destructor
-    virtual ~List()
+    ~List()
     {
         try
         {
@@ -78,9 +78,9 @@ public:
 
     Iterator end();
 
-    ConstIterator cbegin();
+    const ConstIterator cbegin() const;
 
-    ConstIterator cend();
+    const ConstIterator cend() const;
 
     // Operators
     List<T>& operator=(const List<T>&);

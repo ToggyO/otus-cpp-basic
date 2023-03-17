@@ -199,6 +199,13 @@ TEST(TestErase, Success) {
     ASSERT_EQ(list.size(), 2);
     ASSERT_EQ(list[0], (A{1, 2}));
     ASSERT_EQ(list[1], (A{11, 12}));
+
+    auto iter = list.begin();
+    iter = list.begin();
+
+    auto citer = list.cbegin();
+    citer = list.cend();
+    citer = list.cbegin();
 }
 
 TEST(TestClear, Success) {
