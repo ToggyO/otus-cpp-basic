@@ -1,9 +1,8 @@
 #include "hw_tasks/hw_tasks.h"
-#include "list/list.hpp"
+#include <vector>
 int main()
 {
-    List<int> list;
-    std::next(list.begin());
+    std::vector<int> l;
     test_list();
     return 0;
 }

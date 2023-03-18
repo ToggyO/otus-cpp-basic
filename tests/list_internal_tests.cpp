@@ -1,26 +1,33 @@
 #include <gtest/gtest.h>
 
 #include "test_struct.hpp"
-#include "list/list.hpp"
+#include "vector/vector.hpp"
 
 TEST(TestConstructors, Success) {
     int size = 0;
     int cap = 5;
 
-    List<A> list;
+    Vector<A> list;
     list.reserve(cap);
     ASSERT_EQ(cap, list.cap());
 
-    List<A> list1(list);
+    Vector<A> list1(list);
     ASSERT_EQ(cap, list1.cap());
     ASSERT_EQ(cap, list.cap());
     ASSERT_EQ(size, list.size());
 
-    List<A> list2(std::move(list1));
+    Vector<A> list2(std::move(list1));
     ASSERT_EQ(cap, list2.cap());
     ASSERT_EQ(size, list2.size());
 
-    List<int> list3 { 1, 2, 3 };
+    Vector<int> list3 { 1, 2, 3 };
+    ASSERT_EQ(list3.cap(), 3);
+    ASSERT_EQ(list3.size(), 3);
+    ASSERT_EQ(list3[0], 1);
+    ASSERT_EQ(list3[1], 2);
+    ASSERT_EQ(list3[2], 3);
+
+    Vector<int> list4(list3.begin(), list3.end());
     ASSERT_EQ(list3.cap(), 3);
     ASSERT_EQ(list3.size(), 3);
     ASSERT_EQ(list3[0], 1);
@@ -32,7 +39,7 @@ TEST(TestListResize, Success) {
     int expected_cap = 4;
     int new_cap = 10;
 
-    List<A> list;
+    Vector<A> list;
 
     list.emplace_back(1, 2);
     list.emplace_back(3, 4);
@@ -53,7 +60,7 @@ TEST(TestListResize, Success) {
 
 TEST(TestIndexator, Success) {
     int val = 5;
-    List<int> list;
+    Vector<int> list;
     list.reserve(1);
 
     list[0] = val;
@@ -62,13 +69,13 @@ TEST(TestIndexator, Success) {
 
 TEST(TestIndexator, ThrowsIndexOutOfRange) {
     int val = 5;
-    List<int> list;
+    Vector<int> list;
 
     EXPECT_THROW(list[4] = val, std::out_of_range);
 }
 
 TEST(TestEmplaceBack, Success) {
-    List<A> list;
+    Vector<A> list;
 
     list.emplace_back(1, 2);
     list.emplace_back(3, 4);
@@ -87,7 +94,7 @@ TEST(TestEmplaceBack, Success) {
 }
 
 TEST(TestPushBack, Success) {
-    List<A> list;
+    Vector<A> list;
 
     // Move version
     list.push_back(A{1, 2});
@@ -102,7 +109,7 @@ TEST(TestPushBack, Success) {
 }
 
 TEST(TestInsert, Success) {
-    List<A> list;
+    Vector<A> list;
 
     list.emplace_back(1, 2);
     list.emplace_back(3, 4);
@@ -144,7 +151,7 @@ TEST(TestInsert, Success) {
 }
 
 TEST(TestEmplace, Success) {
-    List<A> list;
+    Vector<A> list;
 
     list.emplace_back(1, 2);
     list.emplace_back(3, 4);
@@ -177,7 +184,7 @@ TEST(TestEmplace, Success) {
 }
 
 TEST(TestErase, Success) {
-    List<A> list;
+    Vector<A> list;
 
     list.emplace_back(1, 2);
     list.emplace_back(3, 4);
@@ -209,7 +216,7 @@ TEST(TestErase, Success) {
 }
 
 TEST(TestClear, Success) {
-    List<A> list;
+    Vector<A> list;
 
     list.emplace_back(1, 2);
     list.emplace_back(3, 4);

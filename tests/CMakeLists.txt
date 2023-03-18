@@ -8,7 +8,7 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 set(COMMON_SRCS
-    ../src/list/list.hpp
+    ../src/vector/vector.hpp
     ../src/iterator/sequential/iterator_base.hpp
 )
 

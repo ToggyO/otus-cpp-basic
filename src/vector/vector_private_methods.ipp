@@ -1,5 +1,5 @@
 template <class T>
-void List<T>::m_resize(size_t new_cap)
+void Vector<T>::m_resize(size_t new_cap)
 {
     if (new_cap <= m_cap) { return; }
 
@@ -15,7 +15,7 @@ void List<T>::m_resize(size_t new_cap)
 }
 
 template <class T>
-size_t List<T>::m_calc_capacity() const
+size_t Vector<T>::m_calc_capacity() const
 {
     float coefficient = GrowthCoefficients::tiny;
 
@@ -31,7 +31,7 @@ size_t List<T>::m_calc_capacity() const
 }
 
 template <class T>
-void List<T>::m_resize_and_restore_iterator(Iterator& pos)
+void Vector<T>::m_resize_and_restore_iterator(Iterator& pos)
 {
     if (m_size >= m_cap)
     {
@@ -42,7 +42,7 @@ void List<T>::m_resize_and_restore_iterator(Iterator& pos)
 }
 
 template <class T>
-void List<T>::m_replace_before_insert(Iterator pos)
+void Vector<T>::m_replace_before_insert(Iterator pos)
 {
     auto end_position = pos;
     for (auto i = end(); i != end_position ; --i)
