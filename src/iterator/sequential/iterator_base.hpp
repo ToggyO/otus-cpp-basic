@@ -1,29 +1,37 @@
 #pragma once
 
+#include <iterator>
+
 template <typename T>
 class IteratorBase
 {
-    typedef T value_type;
-    typedef T& reference;
-    typedef T* pointer;
-
     public:
+        typedef IteratorBase<T> itr_type;
+        typedef T value_type;
+        typedef T &reference;
+        typedef T *pointer;
+        typedef std::random_access_iterator_tag iterator_category;
+        typedef std::ptrdiff_t difference_type;
+
         explicit IteratorBase(pointer ptr_) : m_ptr(ptr_) {}
 
-        IteratorBase<value_type>& operator++();
-        IteratorBase<value_type>& operator++(int);
-        IteratorBase<value_type>& operator--();
-        IteratorBase<value_type>& operator--(int);
-        IteratorBase<value_type> operator+(size_t);
-        IteratorBase<value_type> operator-(size_t);
-        size_t operator-(const IteratorBase<value_type>&);
-        reference operator*();
-        pointer operator->();
-        bool operator==(const IteratorBase<value_type>&);
-        bool operator!=(const IteratorBase<value_type>&);
+        itr_type& operator++();
+        itr_type operator++(int);
+        itr_type& operator--();
+        itr_type operator--(int);
+        itr_type operator+(difference_type);
+        itr_type operator-(difference_type);
+        difference_type operator-(const itr_type&);
+        itr_type& operator+=(difference_type);
+        itr_type& operator-=(difference_type);
+        reference operator*() const;
+        pointer operator->() const;
+        bool operator==(const itr_type&) const;
+        bool operator!=(const itr_type&) const;
 
     private:
-        value_type* m_ptr;
+        pointer m_ptr;
 };
+
 
 #include "iterator_base.ipp"

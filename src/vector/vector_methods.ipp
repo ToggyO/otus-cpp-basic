@@ -2,7 +2,7 @@
 
 template <class T>
 template <class... Args>
-void List<T>::emplace_back(Args&&... args)
+void Vector<T>::emplace_back(Args&&... args)
 {
     if (m_size >= m_cap)
     {
@@ -14,7 +14,7 @@ void List<T>::emplace_back(Args&&... args)
 }
 
 template <class T>
-void List<T>::push_back(const T& obj)
+void Vector<T>::push_back(const T& obj)
 {
     if (m_size >= m_cap)
     {
@@ -26,7 +26,7 @@ void List<T>::push_back(const T& obj)
 }
 
 template <class T>
-void List<T>::push_back(T&& obj)
+void Vector<T>::push_back(T&& obj)
 {
     if (m_size >= m_cap)
     {
@@ -38,27 +38,27 @@ void List<T>::push_back(T&& obj)
 }
 
 template <class T>
-void List<T>::insert(ConstIterator pos, const T& obj)
+void Vector<T>::insert(ConstIterator pos, const T& obj)
 {
     auto offset = pos - cbegin();
     insert(begin() + offset, std::move(T(obj)));
 }
 
 template <class T>
-void List<T>::insert(ConstIterator pos, T&& obj)
+void Vector<T>::insert(ConstIterator pos, T&& obj)
 {
     auto offset = pos - cbegin();
     insert(begin() + offset, std::move(obj));
 }
 
 template <class T>
-void List<T>::insert(Iterator pos, const T& obj)
+void Vector<T>::insert(Iterator pos, const T& obj)
 {
     insert(pos, std::move(T(obj)));
 }
 
 template <class T>
-void List<T>::insert(Iterator pos, T&& obj)
+void Vector<T>::insert(Iterator pos, T&& obj)
 {
     m_resize_and_restore_iterator(pos);
 
@@ -76,15 +76,15 @@ void List<T>::insert(Iterator pos, T&& obj)
 
 template <class T>
 template <class... Args>
-void List<T>::emplace(ConstIterator pos, Args&&... args)
+void Vector<T>::emplace(ConstIterator pos, Args&&... args)
 {
     auto offset = pos - cbegin();
-    emplace(begin() + offset, args...); // Вопрос: происходит ли здесь копирование args? И если да, то как его избежать?
+    emplace(begin() + offset, std::forward<Args>(args)...);
 }
 
 template <class T>
 template<class... Args>
-void List<T>::emplace(Iterator pos, Args&&... args)
+void Vector<T>::emplace(Iterator pos, Args&&... args)
 {
     m_resize_and_restore_iterator(pos);
 
@@ -102,11 +102,11 @@ void List<T>::emplace(Iterator pos, Args&&... args)
 }
 
 template <class T>
-void List<T>::erase(ConstIterator pos) { this->erase(pos, pos + 1); }
+void Vector<T>::erase(ConstIterator pos) { this->erase(pos, pos + 1); }
 
 
 template <class T>
-void List<T>::erase(ConstIterator first, ConstIterator last)
+void Vector<T>::erase(ConstIterator first, ConstIterator last)
 {
     auto begin_offset = first - cbegin();
     auto end_offset = cend() - last;
@@ -114,10 +114,10 @@ void List<T>::erase(ConstIterator first, ConstIterator last)
 }
 
 template <class T>
-void List<T>::erase(Iterator pos) { this->erase(pos, pos + 1); }
+void Vector<T>::erase(Iterator pos) { this->erase(pos, pos + 1); }
 
 template <class T>
-void List<T>::erase(Iterator first, Iterator last)
+void Vector<T>::erase(Iterator first, Iterator last)
 {
    auto begin = this->begin();
    auto end = this->end();
@@ -146,7 +146,7 @@ void List<T>::erase(Iterator first, Iterator last)
 }
 
 template <class T>
-void List<T>::clear()
+void Vector<T>::clear()
 {
     ::operator delete(m_arr);
 
@@ -156,7 +156,7 @@ void List<T>::clear()
 }
 
 template <class T>
-void List<T>::reserve(size_t new_cap)
+void Vector<T>::reserve(size_t new_cap)
 {
     m_resize(new_cap);
 }
