@@ -2,10 +2,10 @@
 #include <iostream>
 
 #include "hw_tasks.h"
-#include "../list/list.hpp"
+#include "../vector/vector.hpp"
 
 template<typename T>
-void assert_and_print_list(List<T>& l, const int expected[])
+void assert_and_print_list(Vector<T>& l, const int expected[])
 {
     int i = 0;
     for (auto iter = l.cbegin(); iter != l.cend(); ++iter, i++)
@@ -25,7 +25,7 @@ int test_list()
     {
         // 1. создание объекта контейнера для хранения объектов типа int
         // 2. добавление в контейнер десяти элементов (0, 1 … 9)
-        List<int> list { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        Vector<int> list { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
         // 3. вывод содержимого контейнера на экран
         // ожидаемый результат: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9

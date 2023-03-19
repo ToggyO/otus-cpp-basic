@@ -1,5 +1,5 @@
 template <class T>
-List<T>& List<T>::operator=(const List<T>& other)
+Vector<T>& Vector<T>::operator=(const Vector<T>& other)
 {
     if (this == &other)
     {
@@ -21,7 +21,7 @@ List<T>& List<T>::operator=(const List<T>& other)
 }
 
 template <class T>
-List<T>& List<T>::operator=(List<T>&& other) noexcept
+Vector<T>& Vector<T>::operator=(Vector<T>&& other) noexcept
 {
     if (this != other)
     {
@@ -38,7 +38,7 @@ List<T>& List<T>::operator=(List<T>&& other) noexcept
 }
 
 template <class T>
-T& List<T>::operator[](const size_t index)
+T& Vector<T>::operator[](const size_t index)
 {
     if (index >= m_cap)
     {
@@ -49,7 +49,7 @@ T& List<T>::operator[](const size_t index)
 }
 
 template <class T>
-const T& List<T>::operator[](const size_t index) const
+const T& Vector<T>::operator[](const size_t index) const
 {
     if (index >= m_cap)
     {

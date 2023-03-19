@@ -1,8 +1,6 @@
 #include <gtest/gtest.h>
 
 #include "iterator/sequential/iterator_base.hpp"
-#include "iterator/separated/forward_iterator.hpp"
-#include "node.hpp"
 
 TEST(TestSequentialIterator, IteratesProperlyAndAllowToMutate) {
     int replace = 17;
@@ -24,22 +22,41 @@ TEST(TestSequentialIterator, IteratesProperlyAndAllowToMutate) {
     ASSERT_EQ(replace, a[2]);
 }
 
-TEST(TestSeparatedForwardIterator, IteratesProperlyAndAllowToMutate) {
-    Node<int>* head = new Node<int>(1);
-    Node<int>* current = head;
+TEST(TestIteratorOpeartors, Success) {
+    int a[5] { 1, 2, 3, 4, 5 };
+    int* ptr = a;
 
-    for (int i = 2; i <= 4; i++)
-    {
-        current->next = new Node<int>(i);
-        current = current->next;
-    }
+    auto it = IteratorBase<int>(ptr);
 
-    auto start = ForwardIterator<int>(head);
-    auto end = ForwardIterator<int>(nullptr);
+    ++it;
+    ASSERT_EQ(*it, a[1]);
 
-    for (auto iter = start; iter != end; ++iter)
-    {
-        std::cout << *iter << std::endl;
-        std::cout << iter-> << std::endl;
-    }
+    it++;
+    ASSERT_EQ(*it, a[2]);
+
+    --it;
+    ASSERT_EQ(*it, a[1]);
+
+    it--;
+    ASSERT_EQ(*it, a[0]);
+
+    it = it + 1;
+    ASSERT_EQ(*it, a[1]);
+
+    it = it - 1;
+    ASSERT_EQ(*it, a[0]);
+
+    auto it2 = IteratorBase<int>(ptr + 4);
+    ASSERT_EQ(it2 - it, 4);
+
+    it += 2;
+    ASSERT_EQ(*it, a[2]);
+
+    it -= 2;
+    ASSERT_EQ(*it, a[0]);
+
+    ASSERT_TRUE(it != it2);
+
+    auto it_copy = IteratorBase<int>(ptr);
+    ASSERT_TRUE(it == it_copy);
 }

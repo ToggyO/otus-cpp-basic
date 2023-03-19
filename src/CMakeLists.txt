@@ -4,9 +4,9 @@ project(06.homework.src CXX)
 
 add_executable(containers
     main.cpp
+    vector/vector.hpp
     iterator/sequential/iterator_base.hpp
     iterator/separated/forward_iterator.hpp
-    list/list.hpp
     linked_list/linked_list.hpp
     hw_tasks/hw_tasks.h
     hw_tasks/test_list.cpp

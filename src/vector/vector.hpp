@@ -7,23 +7,28 @@
 #include "../iterator/sequential/iterator_base.hpp"
 
 template <typename T>
-class List
+class Vector
 {
     typedef IteratorBase<T> Iterator;
     typedef IteratorBase<const T> ConstIterator;
 
 public:
+    using value_type = T; // для back_inserter
+
     // Ctors
-    List();
+    Vector();
 
-    List(std::initializer_list<T>);
+    template<class RacIt>
+    Vector(RacIt begin, RacIt end);
 
-    List(const List<T> &);
+    Vector(std::initializer_list<T>);
 
-    List(List<T> &&) noexcept;
+    Vector(const Vector<T> &);
+
+    Vector(Vector<T> &&) noexcept;
 
     // Destructor
-    virtual ~List()
+    ~Vector()
     {
         try
         {
@@ -69,23 +74,30 @@ public:
 
     void clear();
 
+    // Accessors
     size_t size() const { return m_size; }
 
     size_t cap() const { return m_cap; }
 
-    // Iterator
+    bool empty() { return m_size == 0; }
+
+    // Iterators
     Iterator begin();
 
     Iterator end();
 
-    ConstIterator cbegin();
+    ConstIterator begin() const;
 
-    ConstIterator cend();
+    ConstIterator end() const;
+
+    ConstIterator cbegin() const;
+
+    ConstIterator cend() const;
 
     // Operators
-    List<T>& operator=(const List<T>&);
+    Vector<T>& operator=(const Vector<T>&);
 
-    List<T>& operator=(List<T>&&) noexcept;
+    Vector<T>& operator=(Vector<T>&&) noexcept;
 
     T& operator[](size_t index);
 
@@ -120,8 +132,8 @@ protected:
     void m_replace_before_insert(Iterator);
 };
 
-#include "list_ctors.ipp"
-#include "list_operators.ipp"
-#include "list_private_methods.ipp"
-#include "list_methods.ipp"
-#include "list_iterator.ipp"
+#include "vector_ctors.ipp"
+#include "vector_operators.ipp"
+#include "vector_private_methods.ipp"
+#include "vector_methods.ipp"
+#include "vector_iterator.ipp"

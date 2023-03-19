@@ -2,8 +2,8 @@
 #include <forward_list>
 int main()
 {
+    std::forward_list<int> fl;
     test_list();
-//    std::forward_list l;
     return 0;
 }
 

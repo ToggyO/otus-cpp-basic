@@ -1,5 +1,5 @@
 template <class T>
-ForwardIterator<T>& ForwardIterator<T>::operator++()
+typename ForwardIterator<T>::itr_type& ForwardIterator<T>::operator++()
 {
     if (m_current)
     {
@@ -10,15 +10,15 @@ ForwardIterator<T>& ForwardIterator<T>::operator++()
 }
 
 template <class T>
-ForwardIterator<T>& ForwardIterator<T>::operator++(int)
+typename ForwardIterator<T>::itr_type ForwardIterator<T>::operator++(int)
 {
-    auto tmp = *this;
-    ++(*this);
+    itr_type tmp = *this;
+    m_current = m_current->next;
     return tmp;
 }
 
 template <class T>
-ForwardIterator<T> ForwardIterator<T>::operator+(size_t count)
+typename ForwardIterator<T>::itr_type ForwardIterator<T>::operator+(difference_type count)
 {
     const Node<T>* result = m_current;
     for (size_t i = 0; i < count; i++)
@@ -35,27 +35,27 @@ ForwardIterator<T> ForwardIterator<T>::operator+(size_t count)
 }
 
 template <class T>
-typename ForwardIterator<T>::reference ForwardIterator<T>::operator*()
+typename ForwardIterator<T>::reference ForwardIterator<T>::operator*() const
 {
     // TODO: test case on null m_current
     return m_current->data;
 }
 
 template <class T>
-typename ForwardIterator<T>::pointer ForwardIterator<T>::operator->()
+typename ForwardIterator<T>::pointer ForwardIterator<T>::operator->() const
 {
     // TODO: test case on null m_current
     return &m_current->data;
 }
 
 template <class T>
-bool ForwardIterator<T>::operator==(const ForwardIterator<T>& other)
+bool ForwardIterator<T>::operator==(const ForwardIterator<T>& other) const
 {
     return m_current == other.m_current;
 }
 
 template <class T>
-bool ForwardIterator<T>::operator!=(const ForwardIterator<T>& other)
+bool ForwardIterator<T>::operator!=(const ForwardIterator<T>& other) const
 {
     return m_current != other.m_current;
 }

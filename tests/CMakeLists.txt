@@ -8,14 +8,15 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 set(COMMON_SRCS
-    ../src/list/list.hpp
+    ../src/vector/vector.hpp
     ../src/iterator/sequential/iterator_base.hpp
     ../src/iterator/separated/forward_iterator.hpp
 )
 
 add_executable(tests
     test_struct.hpp
-    list_internal_tests.cpp
+    vector_internal_tests.cpp
+    forward_iterator_tests.cpp
     iterator_tests.cpp
     ${COMMON_SRCS}
 )
