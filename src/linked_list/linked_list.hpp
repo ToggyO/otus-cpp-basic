@@ -1,6 +1,7 @@
 #pragma once
 
 #include <initializer_list>
+#include <numeric>
 
 #include "node.hpp"
 #include "../iterator/separated/forward_iterator.hpp"
@@ -8,21 +9,30 @@
 template <class T>
 class LinkedList
 {
-    typedef ForwardIterator<T> Iterator;
-    typedef ForwardIterator<const T> ConstIterator;
-
     public:
+        typedef T value_type;
+        typedef value_type& reference;
+        typedef const value_type& const_reference;
+        typedef ForwardIterator<T> Iterator;
+        typedef ForwardIterator<const T> ConstIterator;
+
         // Ctors
         LinkedList();
 
-        template<class FwdIt>
+        template<class FwdIt, typename = std::_RequireInputIter<FwdIt>>
         LinkedList(FwdIt begin, FwdIt end);
 
         LinkedList(std::initializer_list<T>);
 
-        LinkedList(const LinkedList<T> &);
+        LinkedList(const LinkedList<T>&);
 
-        LinkedList(LinkedList<T> &&) noexcept;
+        LinkedList(LinkedList<T>&&) noexcept;
+
+        ~LinkedList()
+        {
+            // TODO: check
+            delete m_head;
+        }
 
         // Methods
         void insert_after(ConstIterator, const T&);
@@ -67,14 +77,13 @@ class LinkedList
 
         bool empty() { return m_size == 0; }
 
-        T& front() { return m_head->data; }
+        reference front() { return m_head->data; }
 
-        const T& front() { return m_head->data; } const;
+        const_reference front() const { return m_head->data; }
 
-        T& back() { return m_head->data; }
+        reference back() { return m_head->data; }
 
-        const T& back() { return m_head->data; } const
-
+        const_reference back() const { return m_head->data; }
 
         // Iterators
         Iterator begin();
@@ -101,3 +110,4 @@ class LinkedList
 };
 
 #include "linked_list_ctors.ipp"
+#include "linked_list_iterator.ipp"

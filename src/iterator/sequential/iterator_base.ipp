@@ -45,6 +45,12 @@ typename IteratorBase<T>::itr_type IteratorBase<T>::operator-(difference_type co
 }
 
 template <class T>
+typename IteratorBase<T>::difference_type IteratorBase<T>::operator-(const itr_type& other)
+{
+    return m_ptr - other.m_ptr;
+}
+
+template <class T>
 typename IteratorBase<T>::itr_type& IteratorBase<T>::operator+=(difference_type count)
 {
     m_ptr += count;
@@ -56,12 +62,6 @@ typename IteratorBase<T>::itr_type& IteratorBase<T>::operator-=(difference_type 
 {
     m_ptr -= count;
     return *this;
-}
-
-template <class T>
-typename IteratorBase<T>::difference_type IteratorBase<T>::operator-(const itr_type& other)
-{
-    return m_ptr - other.m_ptr;;
 }
 
 template <class T>

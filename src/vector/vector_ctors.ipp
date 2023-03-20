@@ -12,12 +12,13 @@ Vector<T>::Vector(RacIt begin, RacIt end) : m_size(), m_cap(), m_arr()
 }
 
 template <typename T>
-Vector<T>::Vector(std::initializer_list<T> l) : m_size(0), m_cap(l.size()), m_arr((T*)operator new(sizeof(T) * l.size()))
+Vector<T>::Vector(std::initializer_list<T> il) : Vector(il.begin(), il.end())
 {
-    for (auto iter = l.begin(); iter != l.end(); ++iter)
-    {
-        push_back(*iter);
-    }
+    // TODO: remove
+    // for (auto iter = l.begin(); iter != l.end(); ++iter)
+    // {
+    //     push_back(*iter);
+    // }
 }
 
 template <typename T>

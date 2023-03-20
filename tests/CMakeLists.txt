@@ -9,6 +9,7 @@ FetchContent_MakeAvailable(googletest)
 
 set(COMMON_SRCS
     ../src/vector/vector.hpp
+    ../src/linked_list/linked_list.hpp
     ../src/iterator/sequential/iterator_base.hpp
     ../src/iterator/separated/forward_iterator.hpp
 )
@@ -16,6 +17,7 @@ set(COMMON_SRCS
 add_executable(tests
     test_struct.hpp
     vector_internal_tests.cpp
+    forward_list_internal_tests.cpp
     forward_iterator_tests.cpp
     iterator_tests.cpp
     ${COMMON_SRCS}

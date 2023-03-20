@@ -3,9 +3,11 @@
 template <class T>
 struct Node
 {
-    Node(T data_, Node<T>* next_ = nullptr)
+    explicit Node(T data_, Node<T>* next_ = nullptr)
         : data(data_), next(next_) {}
 
+    ~Node() { delete next; }
+
     T data;
-    Node<T>* next; 
+    Node<T>* next;
 };

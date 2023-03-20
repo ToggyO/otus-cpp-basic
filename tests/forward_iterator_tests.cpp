@@ -3,7 +3,6 @@
 #include "iterator/separated/forward_iterator.hpp"
 
 TEST(TestSeparatedForwardIterator, IteratesProperlyAndAllowToMutate) {
-    // TODO: check test
     auto head = new Node<int>(1);
     auto current = head;
     int replace = 69;
@@ -20,12 +19,13 @@ TEST(TestSeparatedForwardIterator, IteratesProperlyAndAllowToMutate) {
     int i = 1;
     for (auto iter = start; iter != end; ++iter)
     {
-        ASSERT_EQ(*iter, i++);
-        if (i == 2)
+        ASSERT_EQ(*iter, i);
+        if (i == 1)
         {
             *iter = replace;
         }
-
-        ASSERT_EQ(replace, a[2]);
+        i++;
     }
+
+    ASSERT_EQ(replace, *start);
 }

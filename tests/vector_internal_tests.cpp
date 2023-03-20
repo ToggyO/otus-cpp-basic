@@ -3,7 +3,7 @@
 #include "test_struct.hpp"
 #include "vector/vector.hpp"
 
-TEST(TestConstructors, Success) {
+TEST(TestVectorConstructors, Success) {
     int size = 0;
     int cap = 5;
 
