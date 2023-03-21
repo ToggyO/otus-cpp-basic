@@ -6,10 +6,12 @@ template <class FwdIt, typename>
 LinkedList<T>::LinkedList(FwdIt begin, FwdIt end)
     : m_head(nullptr), m_tail(nullptr), m_size(0)
 {
-    m_head = new Node<T>(*begin);
+    auto k = *begin;
+    m_head = new Node<T>(std::move(k));
     m_size = 1;
 
-    auto current = m_head;
+//    auto current = m_head;
+    Node<T>* current = nullptr;
 
     for (auto iter = ++begin; iter != end; ++iter)
     {
