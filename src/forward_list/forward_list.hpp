@@ -7,7 +7,7 @@
 #include "../iterator/separated/forward_iterator.hpp"
 
 template <class T>
-class LinkedList
+class ForwardList
 {
     public:
         typedef T value_type;
@@ -17,18 +17,18 @@ class LinkedList
         typedef ForwardIterator<const T> ConstIterator;
 
         // Ctors
-        LinkedList();
+        ForwardList();
 
         template<class FwdIt, typename = std::_RequireInputIter<FwdIt>>
-        LinkedList(FwdIt begin, FwdIt end);
+        ForwardList(FwdIt begin, FwdIt end);
 
-        LinkedList(std::initializer_list<T>);
+        ForwardList(std::initializer_list<T>);
 
-        LinkedList(const LinkedList<T>&);
+        ForwardList(const ForwardList<T>&);
 
-        LinkedList(LinkedList<T>&&) noexcept;
+        ForwardList(ForwardList<T>&&) noexcept;
 
-        ~LinkedList()
+        ~ForwardList()
         {
             // TODO: check
             delete m_head;
@@ -81,9 +81,9 @@ class LinkedList
 
         const_reference front() const { return m_head->data; }
 
-        reference back() { return m_head->data; }
+        reference back() { return m_tail->data; }
 
-        const_reference back() const { return m_head->data; }
+        const_reference back() const { return m_tail->data; }
 
         // Iterators
         Iterator begin();
@@ -99,9 +99,9 @@ class LinkedList
         ConstIterator cend() const;
 
         // Operators
-        LinkedList<T>& operator=(const LinkedList<T>&);
+        ForwardList<T>& operator=(const ForwardList<T>&);
 
-        LinkedList<T>& operator=(LinkedList<T>&&) noexcept;
+        ForwardList<T>& operator=(ForwardList<T>&&) noexcept;
 
     private:
         Node<T>* m_head;
@@ -109,5 +109,5 @@ class LinkedList
         size_t m_size;
 };
 
-#include "linked_list_ctors.ipp"
-#include "linked_list_iterator.ipp"
+#include "forward_list_ctors.ipp"
+#include "forward_list_iterator.ipp"

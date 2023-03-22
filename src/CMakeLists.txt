@@ -7,7 +7,7 @@ add_executable(containers
     vector/vector.hpp
     iterator/sequential/iterator_base.hpp
     iterator/separated/forward_iterator.hpp
-    linked_list/linked_list.hpp
+    forward_list/forward_list.hpp
     hw_tasks/hw_tasks.h
     hw_tasks/test_list.cpp
 )

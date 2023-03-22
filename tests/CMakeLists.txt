@@ -9,7 +9,7 @@ FetchContent_MakeAvailable(googletest)
 
 set(COMMON_SRCS
     ../src/vector/vector.hpp
-    ../src/linked_list/linked_list.hpp
+    ../src/forward_list/forward_list.hpp
     ../src/iterator/sequential/iterator_base.hpp
     ../src/iterator/separated/forward_iterator.hpp
 )
