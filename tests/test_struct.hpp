@@ -22,7 +22,13 @@ struct A
         other.b = 0;
     }
 
-    ~A() = default;
+    ~A()
+    {
+        // TODO: remove
+        std::cout << "Removing A: " << a << " " << b << std::endl;
+        a = 0;
+        b = 0;
+    }
 
     A& operator=(const A& other)
     {

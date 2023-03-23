@@ -6,7 +6,9 @@ template <class FwdIt, typename>
 ForwardList<T>::ForwardList(FwdIt begin, FwdIt end)
     : m_head(nullptr), m_tail(nullptr), m_size(0)
 {
-    auto current = new Node<T>(*begin);  // Вопрос: это самый непроизводительный конструктор в случае с std::initializer_list. Можно ли как то оптимизировать копирование?
+    // Вопрос: это самый непроизводительный конструктор в случае с std::initializer_list.
+    // Можно ли как то оптимизировать копирование?
+    auto current = new Node<T>(*begin);
     m_head = current;
     m_size++;
 
@@ -53,11 +55,5 @@ ForwardList<T>::ForwardList(const ForwardList<T>& other)
 template <class T>
 ForwardList<T>::ForwardList(ForwardList<T>&& other) noexcept
 {
-    m_head = other.m_head;
-    m_tail = other.m_tail;
-    m_size = other.m_size;
-
-    other.m_head = nullptr;
-    other.m_tail = nullptr;
-    other.m_size = 0;
+    move(std::forward<ForwardList<T>>(other));
 }

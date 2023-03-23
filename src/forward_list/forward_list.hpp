@@ -44,11 +44,11 @@ class ForwardList
 
         void push_front(const T&);
 
-        void push_front(const T&&);
+        void push_front(T&&);
 
         void push_back(const T&);
 
-        void push_back(const T&&);
+        void push_back(T&&);
 
         template<class... Args>
         void emplace_front(Args&&...);
@@ -70,12 +70,12 @@ class ForwardList
 
         void erase(ConstIterator, ConstIterator);
 
-        void clear();
+        void clear() { delete m_head; }
 
         // Accessors
         size_t size() const { return m_size; }
 
-        bool empty() { return m_size == 0; }
+        bool empty() const { return m_size == 0; }
 
         reference front() { return m_head->data; }
 
@@ -107,7 +107,12 @@ class ForwardList
         Node<T>* m_head;
         Node<T>* m_tail;
         size_t m_size;
+
+        void move(ForwardList<T>&& other);
 };
 
 #include "forward_list_ctors.ipp"
+#include "forward_list_methods.ipp"
 #include "forward_list_iterator.ipp"
+#include "forward_list_operators.ipp"
+#include "forward_list_private_methods.ipp"
