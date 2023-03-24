@@ -1,5 +1,6 @@
 #pragma once
 
+// Вопрос: при указании компилятору использовать дефольный деструктор, стоит ли определять остальные члены по правилу пяти?
 template <class T>
 struct Node
 {
@@ -17,7 +18,7 @@ struct Node
         move(std::forward<Node<T>>(other));
     }
 
-    ~Node() { delete next; }
+    ~Node() = default;
 
     Node<T>& operator=(const Node<T>& other) noexcept
     {

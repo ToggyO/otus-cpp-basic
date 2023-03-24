@@ -44,7 +44,6 @@ typename ForwardIterator<T>::reference ForwardIterator<T>::operator*() const
 template <class T>
 typename ForwardIterator<T>::pointer ForwardIterator<T>::operator->() const
 {
-    // TODO: test case on null m_current
     return &m_current->data;
 }
 

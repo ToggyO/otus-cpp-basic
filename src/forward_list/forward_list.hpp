@@ -30,8 +30,13 @@ class ForwardList
 
         ~ForwardList()
         {
-            // TODO: check
-            delete m_head;
+            traverse([](const Node<T>* node) {
+                delete node;
+            });
+
+            m_head = nullptr;
+            m_tail = nullptr;
+            m_size = 0;
         }
 
         // Methods
@@ -57,8 +62,6 @@ class ForwardList
         void emplace_back(Args&&...);
 
         void pop_front();
-
-        void pop_back();
 
         void resize(size_t);
 
@@ -109,6 +112,7 @@ class ForwardList
         size_t m_size;
 
         void move(ForwardList<T>&& other);
+        void traverse(void(*action)(const Node<T>*));
 };
 
 #include "forward_list_ctors.ipp"

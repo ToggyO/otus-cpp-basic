@@ -10,6 +10,7 @@ add_executable(containers
     forward_list/forward_list.hpp
     hw_tasks/hw_tasks.h
     hw_tasks/test_list.cpp
+    fl.hpp
 )
 
 set_target_properties(containers PROPERTIES

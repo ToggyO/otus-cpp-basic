@@ -6,9 +6,31 @@
 
 // void insert_after(ConstIterator, const T&&);
 
-// template<class... Args>
-// void emplace_after(ConstIterator, Args&&...);
+template <class T>
+template<class... Args>
+void ForwardList<T>::emplace_after(ConstIterator pos, Args&&... args)
+{
+    auto it = Iterator(pos.__M_get_node_address());
 
+    auto temp = it.__M_get_node_address();
+    auto node = new Node<T>(std::move(T(std::forward<Args>(args)...)));
+
+    if (m_head == nullptr || temp == m_head)
+    {
+        push_front(std::move(node));
+        return;
+    }
+
+    if (temp == m_tail)
+    {
+        push_back(std::move(node));
+        return;
+    }
+
+    node->next = temp->next;
+    temp->next = node;
+    m_size++;
+}
 
 template <class T>
 void ForwardList<T>::push_front(const T& data)
@@ -59,9 +81,17 @@ void ForwardList<T>::push_back(T&& data)
 // template<class... Args>
 // void emplace_back(Args&&...);
 
-// void pop_front();
+template <class T>
+void ForwardList<T>::pop_front()
+{
+    if (m_head == nullptr) { return; }
 
-// void pop_back();
+    auto temp = m_head;
+    m_head = m_head->next;
+    temp->data.~T();
+    temp->~Node();
+    m_size--;
+}
 
 // void resize(size_t);
 
