@@ -31,6 +31,17 @@ TEST(TestForwardListConstructors, Success) {
     EXPECT_EQ(list3.size(), 3);
 }
 
+TEST(TestForwardListDestructor, Success) {
+    ForwardList<A> list;
+
+    list.push_back(A{1, 2});
+    list.push_back(A{3, 4});
+    list.push_back(A{5, 6});
+
+//    list.~ForwardList();
+//    EXPECT_EQ(list.size(), 0);
+}
+
 TEST(TestForwardListOperators, Success) {
     ForwardList<A> list { A{1, 2}, A{3, 4}, A{5, 6} };
 
@@ -112,21 +123,17 @@ TEST(TestForwardListPopFront, Success) {
     EXPECT_EQ(list.front(), (A{3, 4}));
 }
 
-TEST(TestForwardListDestructor, Success) {
-    ForwardList<A> list;
-
-    list.push_back(A{1, 2});
-    list.push_back(A{3, 4});
-    list.push_back(A{5, 6});
-
-    list.~ForwardList();
-    EXPECT_EQ(list.size(), 0);
-}
-
 TEST(TestForwardListEmplaceAfter, Success) {
     ForwardList<A> list;
 
     list.emplace_after(list.cbegin(), 1, 2);
     EXPECT_EQ(list.size(), 1);
     EXPECT_EQ(list.front(), (A{1, 2}));
+    EXPECT_EQ(list.back(), (A{1, 2}));
+
+    list.emplace_after(list.cbegin(), 3, 4);
+    EXPECT_EQ(list.size(), 2);
+    EXPECT_EQ(list.front(), (A{1, 2}));
+    EXPECT_EQ(list.back(), (A{3, 4}));
+
 }

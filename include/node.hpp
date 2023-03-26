@@ -1,11 +1,21 @@
 #pragma once
 
+struct NodeBase
+{
+    NodeBase* next;
+
+    NodeBase() : next(nullptr) {}
+
+    protected:
+        explicit NodeBase(NodeBase* next_) : next(next_) {}
+};
+
 // Вопрос: при указании компилятору использовать дефольный деструктор, стоит ли определять остальные члены по правилу пяти?
 template <class T>
-struct Node
+struct Node : public NodeBase
 {
     explicit Node(T data_, Node<T>* next_ = nullptr)
-        : data(std::move(data_)), next(next_) {}
+        : data(std::move(data_)), NodeBase(next_) {}
 
     Node(const Node<T>& other)
     {
@@ -13,12 +23,10 @@ struct Node
         next = other.next;
     }
 
-    Node(Node<T>&& other)
+    Node(Node<T>&& other) noexcept
     {
         move(std::forward<Node<T>>(other));
     }
-
-    ~Node() = default;
 
     Node<T>& operator=(const Node<T>& other) noexcept
     {
@@ -42,7 +50,6 @@ struct Node
     }
 
     T data;
-    Node<T>* next;
 
 private:
     void move(Node<T>&& other)

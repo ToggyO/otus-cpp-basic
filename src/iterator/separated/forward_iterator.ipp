@@ -20,7 +20,7 @@ typename ForwardIterator<T>::itr_type ForwardIterator<T>::operator++(int)
 template <class T>
 typename ForwardIterator<T>::itr_type ForwardIterator<T>::operator+(difference_type count)
 {
-    const Node<T>* result = m_current;
+    Node<T>* result = m_current;
     for (size_t i = 0; i < count; i++)
     {
         if (!result)
@@ -38,13 +38,13 @@ template <class T>
 typename ForwardIterator<T>::reference ForwardIterator<T>::operator*() const
 {
     // TODO: test case on null m_current
-    return m_current->data;
+    return static_cast<Node<T>*>(m_current)->data;
 }
 
 template <class T>
 typename ForwardIterator<T>::pointer ForwardIterator<T>::operator->() const
 {
-    return &m_current->data;
+    return &static_cast<Node<T>*>(m_current)->data;
 }
 
 template <class T>

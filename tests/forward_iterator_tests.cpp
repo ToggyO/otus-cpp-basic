@@ -10,7 +10,7 @@ TEST(TestSeparatedForwardIterator, IteratesProperlyAndAllowToMutate) {
     for (int i = 2; i <= 4; i++)
     {
         current->next = new Node<int>(i);
-        current = current->next;
+        current = static_cast<Node<int>*>(current->next);
     }
 
     auto start = ForwardIterator<int>(head);

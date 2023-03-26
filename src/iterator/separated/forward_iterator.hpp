@@ -16,22 +16,20 @@ class ForwardIterator
         typedef std::forward_iterator_tag iterator_category;
         typedef std::ptrdiff_t difference_type;
 
-        explicit ForwardIterator(Node<T>* start) : m_current(start) {}
+        explicit ForwardIterator(NodeBase* start) : m_current(start) {}
 
         itr_type& operator++();
         itr_type operator++(int);
         itr_type operator+(difference_type);
-        difference_type operator-(const itr_type&);
         reference operator*() const;
         pointer operator->() const;
         bool operator==(const itr_type&) const;
         bool operator!=(const itr_type&) const;
 
-        Node<T>* __M_get_node_address() const { return m_current; }
+        NodeBase* __M_get_node_address() const { return m_current; }
 
     private:
-        Node<T>* m_current;
-
+        NodeBase* m_current;
 };
 
 #include "forward_iterator.ipp"
