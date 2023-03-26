@@ -4,17 +4,20 @@
 #include <numeric>
 
 #include "node.hpp"
-#include "../iterator/separated/forward_iterator.hpp"
+//#include "../iterator/separated/forward_iterator.hpp"
 
 template <class T>
 class ForwardList
 {
+    struct ForwardIterator;
+    struct ConstForwardIterator;
+
     public:
         typedef T value_type;
         typedef value_type& reference;
         typedef const value_type& const_reference;
-        typedef ForwardIterator<T> Iterator;
-        typedef ForwardIterator<const T> ConstIterator;
+        typedef ForwardIterator Iterator;
+        typedef ConstForwardIterator ConstIterator;
 
         // Ctors
         ForwardList();
@@ -89,17 +92,17 @@ class ForwardList
         const_reference back() const { return m_tail->data; }
 
         // Iterators
-        Iterator begin();
+        Iterator begin() { return Iterator(m_head); };
     
-        Iterator end();
+        Iterator end() { return Iterator(nullptr); };
 
-        ConstIterator begin() const;
+        ConstIterator begin() const { return ConstIterator(m_head); };
     
-        ConstIterator end() const;
+        ConstIterator end() const { return ConstIterator(nullptr); };
     
-        ConstIterator cbegin() const;
+        ConstIterator cbegin() const { return ConstIterator(m_head); };
     
-        ConstIterator cend() const;
+        ConstIterator cend() const { return ConstIterator(nullptr); };
 
         // Operators
         ForwardList<T>& operator=(const ForwardList<T>&);
@@ -118,5 +121,6 @@ class ForwardList
 #include "forward_list_ctors.ipp"
 #include "forward_list_methods.ipp"
 #include "forward_list_iterator.ipp"
+#include "forward_list_const_iterator.ipp"
 #include "forward_list_operators.ipp"
 #include "forward_list_private_methods.ipp"

@@ -17,6 +17,6 @@ void ForwardList<T>::traverse(void(*action)(const Node<T>*))
     while (current != nullptr)
     {
         action(current);
-        current = static_cast<Node<T>*>(current->next);
+        current = current->next;
     }
 }

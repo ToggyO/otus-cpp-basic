@@ -116,11 +116,11 @@ TEST(TestForwardListPopFront, Success) {
 
     list.pop_front();
     EXPECT_EQ(list.size(), 2);
-    EXPECT_EQ(list.front(), (A{1, 2}));
+    EXPECT_EQ(list.front(), (A{3, 4}));
 
     list.pop_front();
     EXPECT_EQ(list.size(), 1);
-    EXPECT_EQ(list.front(), (A{3, 4}));
+    EXPECT_EQ(list.front(), (A{5, 6}));
 }
 
 TEST(TestForwardListEmplaceAfter, Success) {

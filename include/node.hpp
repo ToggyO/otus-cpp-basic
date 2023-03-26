@@ -1,21 +1,22 @@
 #pragma once
 
-struct NodeBase
-{
-    NodeBase* next;
+// TODO: remove
+// struct NodeBase
+// {
+//     NodeBase* next;
 
-    NodeBase() : next(nullptr) {}
+//     NodeBase() : next(nullptr) {}
 
-    protected:
-        explicit NodeBase(NodeBase* next_) : next(next_) {}
-};
+//     protected:
+//         explicit NodeBase(NodeBase* next_) : next(next_) {}
+// };
 
-// Вопрос: при указании компилятору использовать дефольный деструктор, стоит ли определять остальные члены по правилу пяти?
+// Вопрос: при указании компилятору использовать дефолтный деструктор, стоит ли определять остальные члены по правилу пяти?
 template <class T>
-struct Node : public NodeBase
+struct Node
 {
     explicit Node(T data_, Node<T>* next_ = nullptr)
-        : data(std::move(data_)), NodeBase(next_) {}
+        : data(std::move(data_)), next(next_) {}
 
     Node(const Node<T>& other)
     {
@@ -27,6 +28,8 @@ struct Node : public NodeBase
     {
         move(std::forward<Node<T>>(other));
     }
+
+    ~Node() = default;
 
     Node<T>& operator=(const Node<T>& other) noexcept
     {
@@ -50,6 +53,7 @@ struct Node : public NodeBase
     }
 
     T data;
+    Node<T>* next;
 
 private:
     void move(Node<T>&& other)

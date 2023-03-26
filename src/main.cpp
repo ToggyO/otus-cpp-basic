@@ -17,7 +17,8 @@ int main()
     std::forward_list<int> fl1(fl.begin(), fl.end());
     std::cout << fl1.front() << std::endl;
     std::forward_list<int> fl2;
-//    auto k = fl2.front();
+    std::forward_list<int>::const_iterator it;
+    //    auto k = fl2.front();
 
 //    std::unique_ptr<custom::node<A>> node = std::make_unique<custom::node<A>>(nullptr, A{1, 2});
     auto node = new custom::node<A>(nullptr, A{1, 2});

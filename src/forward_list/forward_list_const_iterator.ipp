@@ -1,20 +1,14 @@
 template <class T>
-struct ForwardList<T>::ForwardIterator
+struct ForwardList<T>::ConstForwardIterator
 {
-    typedef ForwardIterator itr_type;
+    typedef ConstForwardIterator itr_type;
     typedef T value_type;
-    typedef T& reference;
-    typedef T* pointer;
+    typedef const T& reference;
+    typedef const T* pointer;
     typedef std::forward_iterator_tag iterator_category;
     typedef std::ptrdiff_t difference_type;
 
-    explicit ForwardIterator(Node<T>* start) : m_current(start) {}
-
-    itr_type& operator++()
-    {
-        if (m_current) { m_current = m_current->next; }
-        return *this;
-    }
+    explicit ConstForwardIterator(const Node<T>* start) : m_current(start) {}
 
     itr_type operator++(int)
     {
@@ -32,7 +26,7 @@ struct ForwardList<T>::ForwardIterator
             result = result->next;
         }
 
-        return ForwardIterator(result);
+        return ConstForwardIterator(result);
     }
 
     // TODO: test case on null m_current
@@ -47,8 +41,8 @@ struct ForwardList<T>::ForwardIterator
     friend class ForwardList<T>;
 
     private:
-        Node<T>* m_current;
+        const Node<T>* m_current;
 
         // TODO: check
-        Node<T>* __M_get_node_address() const { return m_current; }
+        const Node<T>* __M_get_node_address() const { return m_current; }
 };

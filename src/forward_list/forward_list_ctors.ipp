@@ -15,7 +15,7 @@ ForwardList<T>::ForwardList(FwdIt begin, FwdIt end)
     for (auto iter = ++begin; iter != end; ++iter)
     {
         current->next = new Node<T>(std::move(*iter));
-        current = static_cast<Node<T>*>(current->next);
+        current = current->next;
         m_size++;
     }
 
@@ -42,9 +42,9 @@ ForwardList<T>::ForwardList(const ForwardList<T>& other)
 
     while (current_other->next != nullptr)
     {
-        current->next = new Node<T>(static_cast<Node<T>*>(current_other->next)->data);
-        current = static_cast<Node<T>*>(current->next);
-        current_other = static_cast<Node<T>*>(current_other->next);
+        current->next = new Node<T>(current_other->next->data);
+        current = current->next;
+        current_other = current_other->next;
     }
 
     m_tail = current;
