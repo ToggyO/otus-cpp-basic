@@ -11,12 +11,6 @@ TEST(TestForwardListConstructors, Success) {
     // Initializer list and iterator ctors
     ForwardList<A> list1 { A{1, 2}, A{3, 4}, A{5, 6} };
     EXPECT_EQ(list1.size(), 3);
-    // TODO: remove
-    for (auto iter = list1.begin(); iter != list1.end(); ++iter)
-    {
-     std::cout << iter->a << " " << iter->b << std::endl;
-    }
-    //
 
     // Copy ctor
     ForwardList<A> list2(list1);
@@ -38,6 +32,7 @@ TEST(TestForwardListDestructor, Success) {
     list.push_back(A{3, 4});
     list.push_back(A{5, 6});
 
+// TODO: remove
 //    list.~ForwardList();
 //    EXPECT_EQ(list.size(), 0);
 }
@@ -135,5 +130,4 @@ TEST(TestForwardListEmplaceAfter, Success) {
     EXPECT_EQ(list.size(), 2);
     EXPECT_EQ(list.front(), (A{1, 2}));
     EXPECT_EQ(list.back(), (A{3, 4}));
-
 }

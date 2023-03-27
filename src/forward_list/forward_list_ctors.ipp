@@ -55,5 +55,5 @@ ForwardList<T>::ForwardList(const ForwardList<T>& other)
 template <class T>
 ForwardList<T>::ForwardList(ForwardList<T>&& other) noexcept
 {
-    move(std::forward<ForwardList<T>>(other));
+    m_move(std::forward<ForwardList<T>>(other));
 }

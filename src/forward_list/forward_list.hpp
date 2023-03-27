@@ -4,20 +4,18 @@
 #include <numeric>
 
 #include "node.hpp"
-//#include "../iterator/separated/forward_iterator.hpp"
+#include "./iterator/forward_list_iterator.hpp"
+#include "./iterator/forward_list_const_iterator.hpp"
 
 template <class T>
 class ForwardList
 {
-    struct ForwardIterator;
-    struct ConstForwardIterator;
-
     public:
         typedef T value_type;
         typedef value_type& reference;
         typedef const value_type& const_reference;
-        typedef ForwardIterator Iterator;
-        typedef ConstForwardIterator ConstIterator;
+        typedef ForwardIterator<T> Iterator;
+        typedef ConstForwardIterator<T> ConstIterator;
 
         // Ctors
         ForwardList();
@@ -33,7 +31,7 @@ class ForwardList
 
         ~ForwardList()
         {
-            traverse([](const Node<T>* node) {
+            m_traverse([](const Node<T>* node) {
                 delete node;
             });
 
@@ -114,13 +112,12 @@ class ForwardList
         Node<T>* m_tail;
         size_t m_size;
 
-        void move(ForwardList<T>&& other);
-        void traverse(void(*action)(const Node<T>*));
+        void m_move(ForwardList<T>&&);
+        void m_traverse(void(*action)(const Node<T>*));
+        void m_insert(Node<T>* pivot_node, Node<T>* new_node);
 };
 
 #include "forward_list_ctors.ipp"
 #include "forward_list_methods.ipp"
-#include "forward_list_iterator.ipp"
-#include "forward_list_const_iterator.ipp"
 #include "forward_list_operators.ipp"
 #include "forward_list_private_methods.ipp"

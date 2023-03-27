@@ -1,5 +1,8 @@
 template <class T>
-struct ForwardList<T>::ConstForwardIterator
+class ForwardList; // Вопрос: правильно ли так делать? Не понимаю, класс дклариуется несколько раз? Если он уже объявлен в forward_list.hpp
+
+template <class T>
+struct ConstForwardIterator
 {
     typedef ConstForwardIterator itr_type;
     typedef T value_type;
@@ -10,24 +13,11 @@ struct ForwardList<T>::ConstForwardIterator
 
     explicit ConstForwardIterator(const Node<T>* start) : m_current(start) {}
 
-    itr_type operator++(int)
-    {
-        itr_type tmp = *this;
-        m_current = m_current->next;
-        return tmp;
-    }
+    itr_type& operator++();
 
-    itr_type operator+(difference_type count)
-    {
-        Node<T>* result = m_current;
-        for (size_t i = 0; i < count; i++)
-        {
-            if (!result) { throw std::out_of_range("out of range"); }
-            result = result->next;
-        }
+    itr_type operator++(int);
 
-        return ConstForwardIterator(result);
-    }
+    itr_type operator+(difference_type count);
 
     // TODO: test case on null m_current
     reference operator*() const { return m_current->data; }
@@ -43,6 +33,7 @@ struct ForwardList<T>::ConstForwardIterator
     private:
         const Node<T>* m_current;
 
-        // TODO: check
         const Node<T>* __M_get_node_address() const { return m_current; }
 };
+
+#include "forward_list_const_iterator.ipp"

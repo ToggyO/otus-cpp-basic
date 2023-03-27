@@ -1,5 +1,8 @@
 template <class T>
-struct ForwardList<T>::ForwardIterator
+class ForwardList;
+
+template <class T>
+struct ForwardIterator
 {
     typedef ForwardIterator itr_type;
     typedef T value_type;
@@ -10,30 +13,11 @@ struct ForwardList<T>::ForwardIterator
 
     explicit ForwardIterator(Node<T>* start) : m_current(start) {}
 
-    itr_type& operator++()
-    {
-        if (m_current) { m_current = m_current->next; }
-        return *this;
-    }
+    itr_type& operator++();
 
-    itr_type operator++(int)
-    {
-        itr_type tmp = *this;
-        m_current = m_current->next;
-        return tmp;
-    }
+    itr_type operator++(int);
 
-    itr_type operator+(difference_type count)
-    {
-        Node<T>* result = m_current;
-        for (size_t i = 0; i < count; i++)
-        {
-            if (!result) { throw std::out_of_range("out of range"); }
-            result = result->next;
-        }
-
-        return ForwardIterator(result);
-    }
+    itr_type operator+(difference_type count);
 
     // TODO: test case on null m_current
     reference operator*() const { return m_current->data; }
@@ -52,3 +36,5 @@ struct ForwardList<T>::ForwardIterator
         // TODO: check
         Node<T>* __M_get_node_address() const { return m_current; }
 };
+
+#include "forward_list_iterator.ipp"

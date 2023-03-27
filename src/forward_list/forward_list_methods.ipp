@@ -7,29 +7,35 @@ void ForwardList<T>::insert_after(ConstIterator pos, const T& data)
 template <class T>
 void ForwardList<T>::insert_after(ConstIterator pos, const T&& data)
 {
-
+    auto pivot_node = const_cast<Node<T>*>(pos.__M_get_node_address());
+    // TODO: implement test, check moving
+    auto new_node = new Node<T>(data);
+    m_insert(pivot_node, new_node);
 }
 
 template <class T>
 template <class... Args>
 void ForwardList<T>::emplace_after(ConstIterator pos, Args&&... args)
 {
-    auto node = new Node<T>(T(std::forward<Args>(args)...)); // Вопрос: оправдано ли здесь применение std::forward?
-    auto temp = const_cast<Node<T>*>(pos.__M_get_node_address());
+    auto pivot_node = const_cast<Node<T>*>(pos.__M_get_node_address());
+    auto new_node = new Node<T>(T(std::forward<Args>(args)...)); // Вопрос: оправдано ли здесь применение std::forward?
+    m_insert(pivot_node, new_node);
+    // TODO: remove
+    // auto temp = const_cast<Node<T>*>(pos.__M_get_node_address());
 
-    if (temp == m_head || temp == m_tail)
-    {
-        return push_back(std::move(node->data));
-    }
+    // if (temp == m_head || temp == m_tail)
+    // {
+    //     return push_back(std::move(node->data));
+    // }
 
-    if (temp == nullptr)
-    {
-        throw std::runtime_error("iterator contains invalid data");
-    }
+    // if (temp == nullptr)
+    // {
+    //     throw std::runtime_error("iterator contains invalid data");
+    // }
 
-    node->next = temp->next;
-    temp->next = node;
-    m_size++;
+    // node->next = temp->next;
+    // temp->next = node;
+    // m_size++;
 }
 
 template <class T>
