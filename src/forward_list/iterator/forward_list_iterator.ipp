@@ -21,7 +21,7 @@ template <class T>
 typename ForwardIterator<T>::itr_type ForwardIterator<T>::operator+(difference_type count)
 {
     Node<T>* result = m_current;
-    for (size_t i = 0; i < count; i++)
+    for (difference_type i = 0; i < count; i++)
     {
         if (!result) { throw std::out_of_range("out of range"); }
         result = result->next;

@@ -6,7 +6,7 @@ typename IteratorBase<T>::itr_type& IteratorBase<T>::operator++()
 }
 
 template <class T>
-typename IteratorBase<T>::itr_type IteratorBase<T>::operator++(int junk)
+typename IteratorBase<T>::itr_type IteratorBase<T>::operator++(int)
 {
 // TODO: check
 //    IteratorBase<T>& tmp = *this;
@@ -23,7 +23,7 @@ typename IteratorBase<T>::itr_type& IteratorBase<T>::operator--()
 }
 
 template <class T>
-typename IteratorBase<T>::itr_type IteratorBase<T>::operator--(int junk)
+typename IteratorBase<T>::itr_type IteratorBase<T>::operator--(int)
 {
 // TODO: check
 //    IteratorBase<T> tmp = *this;

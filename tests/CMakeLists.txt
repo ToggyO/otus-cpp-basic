@@ -11,21 +11,34 @@ set(COMMON_SRCS
     ../src/vector/vector.hpp
     ../src/forward_list/forward_list.hpp
     ../src/iterator/sequential/iterator_base.hpp
-    ../src/iterator/separated/forward_iterator.hpp
 )
 
 add_executable(tests
     test_struct.hpp
     vector_internal_tests.cpp
     forward_list_internal_tests.cpp
-    forward_iterator_tests.cpp
+    forward_list_iterator_tests.cpp
     iterator_tests.cpp
     ${COMMON_SRCS}
 )
 
+target_compile_options(tests PRIVATE 
+    -g
+    -Wall
+    -Wextra
+    -Werror
+    -pedantic
+    -fsanitize=address
+    -fsanitize=leak
+)
+target_link_options(tests PRIVATE 
+    -fsanitize=address
+    -fsanitize=leak
+)
+
 target_include_directories(tests PUBLIC
-        ${CMAKE_SOURCE_DIR}/src
-        ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}/include
 )
 
 target_link_libraries(tests PUBLIC gtest gtest_main)

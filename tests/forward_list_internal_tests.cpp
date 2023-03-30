@@ -121,13 +121,100 @@ TEST(TestForwardListPopFront, Success) {
 TEST(TestForwardListEmplaceAfter, Success) {
     ForwardList<A> list;
 
-    list.emplace_after(list.cbegin(), 1, 2);
+    // Iterator
+    list.emplace_after(list.begin(), 1, 2);
     EXPECT_EQ(list.size(), 1);
     EXPECT_EQ(list.front(), (A{1, 2}));
     EXPECT_EQ(list.back(), (A{1, 2}));
 
-    list.emplace_after(list.cbegin(), 3, 4);
+    list.emplace_after(list.begin(), 3, 4);
     EXPECT_EQ(list.size(), 2);
     EXPECT_EQ(list.front(), (A{1, 2}));
     EXPECT_EQ(list.back(), (A{3, 4}));
+
+    // Const iterator
+    list.emplace_after(list.cbegin(), 5, 6);
+    EXPECT_EQ(list.size(), 3);
+    EXPECT_EQ(list.front(), (A{1, 2}));
+    EXPECT_EQ(list.back(), (A{3, 4}));
+}
+
+TEST(TestForwardListInsertAfter, Success) {
+    ForwardList<A> list;
+
+    // Copy version + Const iterator
+    A a(1, 2);
+    list.insert_after(list.cbegin(), a);
+    EXPECT_EQ(list.size(), 1);
+    EXPECT_EQ(list.front(), (A{1, 2}));
+    EXPECT_EQ(list.back(), (A{1, 2}));
+
+    // Move version + Const iterator
+    list.insert_after(list.cbegin(), A{3, 4});
+    EXPECT_EQ(list.size(), 2);
+    EXPECT_EQ(list.front(), (A{1, 2}));
+    EXPECT_EQ(list.back(), (A{3, 4}));
+
+    // Copy version + Iterator
+    a = A{5, 6};
+    list.insert_after(list.begin(), a);
+    EXPECT_EQ(list.size(), 3);
+    EXPECT_EQ(list.front(), (A{1, 2}));
+    EXPECT_EQ(list.back(), (A{3, 4}));
+
+    // Mopy version + Iterator
+    list.insert_after(list.end(), A{7, 8});
+    EXPECT_EQ(list.size(), 4);
+    EXPECT_EQ(list.front(), (A{1, 2}));
+    EXPECT_EQ(list.back(), (A{7, 8}));
+}
+
+TEST(TestForwardListEmplaceFront, Success) {
+    ForwardList<A> list;
+
+    list.emplace_front(1, 2);
+    EXPECT_EQ(list.size(), 1);
+    EXPECT_EQ(list.front(), (A{1, 2}));
+    EXPECT_EQ(list.back(), (A{1, 2}));
+
+    list.emplace_front(3, 4);
+    EXPECT_EQ(list.size(), 2);
+    EXPECT_EQ(list.front(), (A{3, 4}));
+    EXPECT_EQ(list.back(), (A{1, 2}));
+}
+
+TEST(TestForwardListEmplaceBack, Success) {
+    ForwardList<A> list;
+
+    list.emplace_back(1, 2);
+    EXPECT_EQ(list.size(), 1);
+    EXPECT_EQ(list.front(), (A{1, 2}));
+    EXPECT_EQ(list.back(), (A{1, 2}));
+
+    list.emplace_back(3, 4);
+    EXPECT_EQ(list.size(), 2);
+    EXPECT_EQ(list.front(), (A{1, 2}));
+    EXPECT_EQ(list.back(), (A{3, 4}));
+}
+
+TEST(TestForwardListResize, Success) {
+    ForwardList<A> list;
+
+    list.push_back(A{1, 2});
+    list.push_back(A{3, 4});
+    list.push_back(A{5, 6});
+    list.push_back(A{7, 8});
+    EXPECT_EQ(list.size(), 4);
+
+    // Fill by default values
+    size_t resize_count = 6;
+    list.resize(resize_count);
+    EXPECT_EQ(list.size(), resize_count);
+
+    // Reduce list
+    resize_count = 4;
+    list.resize(resize_count);
+    EXPECT_EQ(list.size(), resize_count);
+    EXPECT_EQ(list.front(), (A{1, 2}));
+    EXPECT_EQ(list.back(), (A{7, 8}));
 }

@@ -20,7 +20,7 @@ typename ConstForwardIterator<T>::itr_type ConstForwardIterator<T>::operator++(i
 template <class T>
 typename ConstForwardIterator<T>::itr_type ConstForwardIterator<T>::operator+(difference_type count)
 {
-    Node<T>* result = m_current;
+    const Node<T>* result = m_current;
     for (size_t i = 0; i < count; i++)
     {
         if (!result) { throw std::out_of_range("out of range"); }

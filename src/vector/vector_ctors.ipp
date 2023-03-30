@@ -28,7 +28,7 @@ Vector<T>::Vector(const Vector<T>& other)
     m_cap = other.m_cap;
 
     m_arr = (T*)::operator new(sizeof(T) * m_cap);
-    for (int i = 0; i < m_size; ++i)
+    for (size_t i = 0; i < m_size; ++i)
     {
         *(m_arr + i) = other.m_arr[i];
     }

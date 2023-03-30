@@ -33,7 +33,6 @@ struct ForwardIterator
     private:
         Node<T>* m_current;
 
-        // TODO: check
         Node<T>* __M_get_node_address() const { return m_current; }
 };
 

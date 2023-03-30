@@ -2,6 +2,7 @@
 
 #include <initializer_list>
 #include <numeric>
+#include <cstddef>
 
 #include "node.hpp"
 #include "./iterator/forward_list_iterator.hpp"
@@ -31,7 +32,7 @@ class ForwardList
 
         ~ForwardList()
         {
-            m_traverse([](const Node<T>* node) {
+            m_traverse(begin(), end(), [](const Node<T>* node) {
                 delete node;
             });
 
@@ -41,9 +42,16 @@ class ForwardList
         }
 
         // Methods
+        void insert_after(Iterator, const T&);
+
+        void insert_after(Iterator, T&&);
+
         void insert_after(ConstIterator, const T&);
 
-        void insert_after(ConstIterator, const T&&);
+        void insert_after(ConstIterator, T&&);
+
+        template<class... Args>
+        void emplace_after(Iterator, Args&&...);
 
         template<class... Args>
         void emplace_after(ConstIterator, Args&&...);
@@ -113,7 +121,7 @@ class ForwardList
         size_t m_size;
 
         void m_move(ForwardList<T>&&);
-        void m_traverse(void(*action)(const Node<T>*));
+        void m_traverse(Iterator, Iterator, void(*action)(const Node<T>*));
         void m_insert(Node<T>* pivot_node, Node<T>* new_node);
 };
 
