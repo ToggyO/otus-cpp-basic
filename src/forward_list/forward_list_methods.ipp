@@ -7,9 +7,8 @@ void ForwardList<T>::insert_after(Iterator pos, const T& obj)
 template <class T>
 void ForwardList<T>::insert_after(Iterator pos, T&& obj)
 {
-    auto pivot_node = pos.__M_get_node_address();
-    auto new_node = new Node<T>(std::move(obj));
-    m_insert(pivot_node, new_node);
+    auto pivot_node = pos.m_get_node_address();
+    m_insert(pivot_node, std::move(obj));
 }
 
 template <class T>
@@ -21,27 +20,24 @@ void ForwardList<T>::insert_after(ConstIterator pos, const T& obj)
 template <class T>
 void ForwardList<T>::insert_after(ConstIterator pos, T&& obj)
 {
-    auto pivot_node = const_cast<Node<T>*>(pos.__M_get_node_address());
-    auto new_node = new Node<T>(std::move(obj));
-    m_insert(pivot_node, new_node);
+    auto pivot_node = const_cast<Node<T>*>(pos.m_get_node_address());
+    m_insert(pivot_node, std::move(obj));
 }
 
 template <class T>
 template <class... Args>
 void ForwardList<T>::emplace_after(Iterator pos, Args&&... args)
 {
-    auto pivot_node = pos.__M_get_node_address();
-    auto new_node = new Node<T>(T(std::forward<Args>(args)...)); // Вопрос: оправдано ли здесь применение std::forward?
-    m_insert(pivot_node, new_node);
+    auto pivot_node = pos.m_get_node_address();
+    m_insert(pivot_node, T(std::forward<Args>(args)...)); // Вопрос: оправдано ли здесь применение std::forward?
 }
 
 template <class T>
 template <class... Args>
 void ForwardList<T>::emplace_after(ConstIterator pos, Args&&... args)
 {
-    auto pivot_node = const_cast<Node<T>*>(pos.__M_get_node_address());
-    auto new_node = new Node<T>(T(std::forward<Args>(args)...)); // Вопрос: оправдано ли здесь применение std::forward?
-    m_insert(pivot_node, new_node);
+    auto pivot_node = const_cast<Node<T>*>(pos.m_get_node_address());
+    m_insert(pivot_node, T(std::forward<Args>(args)...)); // Вопрос: оправдано ли здесь применение std::forward?
 }
 
 template <class T>
@@ -61,6 +57,7 @@ void ForwardList<T>::push_front(T&& data)
 
     node->next = m_head;
     m_head = node;
+    m_before_head->next = m_head;
     m_size++;
 }
 
@@ -77,6 +74,7 @@ void ForwardList<T>::push_back(T&& data)
     if (m_head == nullptr)
     {
         m_head = node;
+        m_before_head->next = m_head;
     }
     else
     {
@@ -110,6 +108,7 @@ void ForwardList<T>::pop_front()
 
     auto temp = m_head;
     m_head = m_head->next;
+    m_before_head->next = m_head;
     delete temp;
     m_size--;
 }
@@ -134,16 +133,52 @@ void ForwardList<T>::resize(size_t count)
         });
 
         Iterator new_tail = begin() + (count - 1);
-        m_tail = new_tail.__M_get_node_address();
+        m_tail = new_tail.m_get_node_address();
         m_tail->next = nullptr;
         m_size -= diff;
+
+        if (m_size <= 0)
+        {
+            m_clear_internal();
+        }
     }
 }
 
-// void erase(Iterator);
+template <class T>
+void ForwardList<T>::erase_after(Iterator pos)
+{
+    auto end_node = (pos + 2).m_get_node_address();
+    m_erase_after(pos, Iterator(end_node));
+}
 
-// void erase(ConstIterator);
+template <class T>
+void ForwardList<T>::erase_after(ConstIterator pos)
+{
+    auto start = Iterator(const_cast<Node<T>*>(pos.m_get_node_address()));
+    auto end_node = const_cast<Node<T>*>((pos + 2).m_get_node_address());
+    m_erase_after(start, Iterator(end_node));
+}
 
-// void erase(Iterator, Iterator);
+template <class T>
+void ForwardList<T>::erase_after(Iterator first, Iterator last)
+{
+    m_erase_after(first, last);
+}
 
-// void erase(ConstIterator, ConstIterator);
+template <class T>
+void ForwardList<T>::erase_after(ConstIterator first, ConstIterator last)
+{
+    auto start = Iterator(const_cast<Node<T>*>(first.m_get_node_address()));
+    auto end = Iterator(const_cast<Node<T>*>(last.m_get_node_address()));
+    m_erase_after(start, end);
+}
+
+template <class T>
+void ForwardList<T>::clear()
+{
+    m_traverse(begin(), end(), [](const Node<T>* node) {
+        delete node;
+    });
+
+    m_clear_internal();
+}

@@ -33,7 +33,7 @@ struct ConstForwardIterator
     private:
         const Node<T>* m_current;
 
-        const Node<T>* __M_get_node_address() const { return m_current; }
+        const Node<T>* m_get_node_address() const { return m_current; }
 };
 
 #include "forward_list_const_iterator.ipp"

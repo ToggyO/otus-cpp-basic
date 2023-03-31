@@ -25,16 +25,15 @@ TEST(TestForwardListConstructors, Success) {
     EXPECT_EQ(list3.size(), 3);
 }
 
-TEST(TestForwardListDestructor, Success) {
+TEST(TestForwardListClear, Success) {
     ForwardList<A> list;
 
     list.push_back(A{1, 2});
     list.push_back(A{3, 4});
     list.push_back(A{5, 6});
 
-// TODO: remove
-//    list.~ForwardList();
-//    EXPECT_EQ(list.size(), 0);
+    list.clear();
+    EXPECT_EQ(list.size(), 0);
 }
 
 TEST(TestForwardListOperators, Success) {
@@ -217,4 +216,40 @@ TEST(TestForwardListResize, Success) {
     EXPECT_EQ(list.size(), resize_count);
     EXPECT_EQ(list.front(), (A{1, 2}));
     EXPECT_EQ(list.back(), (A{7, 8}));
+}
+
+TEST(TestForwardListEraseAfter, Success) {
+    ForwardList<A> list;
+
+    list.push_back(A{1, 2});
+    list.push_back(A{3, 4});
+    list.push_back(A{5, 6});
+    list.push_back(A{7, 8});
+
+    // Range + Const iterator
+    auto list1 = list;
+    list1.erase_after(list1.cbegin(), list1.cbegin() + 3);
+    EXPECT_EQ(list1.size(), 2);
+    EXPECT_EQ(list1.front(), (A{1, 2}));
+    EXPECT_EQ(list1.back(), (A{7, 8}));
+
+    // Single position + Const iterator
+    auto list2 = list;
+    list2.erase_after(list2.cbegin() + 1);
+    EXPECT_EQ(list2.size(), 3);
+    EXPECT_EQ(list2.front(), (A{1, 2}));
+    EXPECT_EQ(list2.back(), (A{7, 8}));
+
+    // Range + Iterator
+    auto list3 = list;
+    list3.erase_after(list3.before_begin(), list3.end());
+    EXPECT_EQ(list3.size(), 0);
+
+    // Single position + Iterator
+    auto list4 = list;
+    list4.erase_after(list4.before_begin());
+    EXPECT_EQ(list4.size(), 3);
+    auto r = list4.front();
+    EXPECT_EQ(r, (A{3, 4}));
+    EXPECT_EQ(list4.back(), (A{7, 8}));
 }

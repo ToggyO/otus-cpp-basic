@@ -4,6 +4,18 @@
 #include "forward_list/iterator/forward_list_iterator.hpp"
 #include "forward_list/iterator/forward_list_const_iterator.hpp"
 
+template <class T>
+void remove_recursively(const Node<T>* node)
+{
+    auto current = node;
+    while (current != nullptr)
+    {
+        auto next = current->next;
+        delete current;
+        current = next;
+    }
+}
+
 TEST(TestForwardListIterator, IteratesProperlyAndAllowToMutate) {
     auto head = new Node<int>(1);
     auto current = head;
@@ -30,6 +42,7 @@ TEST(TestForwardListIterator, IteratesProperlyAndAllowToMutate) {
     }
 
     ASSERT_EQ(replace, *start);
+    remove_recursively(head);
 }
 
 TEST(TestForwardListConstIterator, IteratesProperlyAndAllowToMutate) {
@@ -53,4 +66,5 @@ TEST(TestForwardListConstIterator, IteratesProperlyAndAllowToMutate) {
     }
 
     ASSERT_EQ(1, *start);
+    remove_recursively(head);
 }

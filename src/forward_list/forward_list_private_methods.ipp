@@ -2,35 +2,67 @@ template <class T>
 void ForwardList<T>::m_move(ForwardList<T>&& other)
 {
     m_head = other.m_head;
+    m_before_head->next = m_head;
     m_tail = other.m_tail;
     m_size = other.m_size;
 
     other.m_head = nullptr;
+    other.m_before_head->next = nullptr;
     other.m_tail = nullptr;
     other.m_size = 0;
 }
 
 template <class T>
-void ForwardList<T>::m_traverse(Iterator first, Iterator last, void(*action)(const Node<T>*))
+void ForwardList<T>::m_traverse(Iterator first, Iterator last, std::function<void(const Node<T>*)> action)
 {
-    auto current = first.__M_get_node_address();
-    auto end = last.__M_get_node_address();
+    auto current = first.m_get_node_address();
+    auto end = last.m_get_node_address();
     while (current != end)
     {
+        auto next = current->next;
         action(current);
-        current = current->next;
+        current = next;
     }
 }
 
 template <class T>
-void ForwardList<T>::m_insert(Node<T>* pivot_node, Node<T>* new_node)
+void ForwardList<T>::m_insert(Node<T>* pivot_node, T obj)
 {
     if (pivot_node == nullptr || m_head == nullptr || pivot_node == m_tail)
     {
-        return push_back(std::move(new_node->data));
+        return push_back(std::move(obj));
     }
 
+    auto new_node = new Node<T>(std::move(obj));
     new_node->next = pivot_node->next;
     pivot_node->next = new_node;
     m_size++;
+}
+
+template <class T>
+void ForwardList<T>::m_erase_after(Iterator first, Iterator last)
+{
+    size_t delete_count = 0;
+    m_traverse(first + 1, last, [&delete_count](const Node<T> *node) {
+        delete node;
+        delete_count++;
+    });
+
+    first.m_get_node_address()->next = last.m_get_node_address();
+    m_size -= delete_count;
+
+    // TODO: актуализировать m_before_head, если удален m_head
+    if (m_size <= 0)
+    {
+        m_clear_internal();
+    }
+}
+
+template <class T>
+void ForwardList<T>::m_clear_internal()
+{
+    m_head = nullptr;
+    m_tail = nullptr;
+    m_before_head->next = nullptr;
+    m_size = 0;
 }

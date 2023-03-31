@@ -32,13 +32,8 @@ class ForwardList
 
         ~ForwardList()
         {
-            m_traverse(begin(), end(), [](const Node<T>* node) {
-                delete node;
-            });
-
-            m_head = nullptr;
-            m_tail = nullptr;
-            m_size = 0;
+            clear();
+            delete m_before_head;
         }
 
         // Methods
@@ -74,15 +69,15 @@ class ForwardList
 
         void resize(size_t);
 
-        void erase(Iterator);
+        void erase_after(Iterator);
 
-        void erase(ConstIterator);
+        void erase_after(Iterator, Iterator);
 
-        void erase(Iterator, Iterator);
+        void erase_after(ConstIterator);
 
-        void erase(ConstIterator, ConstIterator);
+        void erase_after(ConstIterator, ConstIterator);
 
-        void clear() { delete m_head; }
+        void clear();
 
         // Accessors
         size_t size() const { return m_size; }
@@ -98,6 +93,12 @@ class ForwardList
         const_reference back() const { return m_tail->data; }
 
         // Iterators
+        Iterator before_begin() { return Iterator(m_before_head); }
+
+        ConstIterator before_begin() const { return ConstIterator(m_before_head); }
+
+        ConstIterator cbefore_begin() const { return ConstIterator(m_before_head); }
+
         Iterator begin() { return Iterator(m_head); };
     
         Iterator end() { return Iterator(nullptr); };
@@ -106,7 +107,7 @@ class ForwardList
     
         ConstIterator end() const { return ConstIterator(nullptr); };
     
-        ConstIterator cbegin() const { return ConstIterator(m_head); };
+        ConstIterator cbegin() { return ConstIterator(m_head); };
     
         ConstIterator cend() const { return ConstIterator(nullptr); };
 
@@ -116,13 +117,16 @@ class ForwardList
         ForwardList<T>& operator=(ForwardList<T>&&) noexcept;
 
     private:
+        Node<T>* m_before_head = new Node<T>(T());
         Node<T>* m_head;
         Node<T>* m_tail;
         size_t m_size;
 
         void m_move(ForwardList<T>&&);
-        void m_traverse(Iterator, Iterator, void(*action)(const Node<T>*));
-        void m_insert(Node<T>* pivot_node, Node<T>* new_node);
+        void m_traverse(Iterator, Iterator, std::function<void(const Node<T>*)>);
+        void m_insert(Node<T>* pivot_node, T obj);
+        void m_erase_after(Iterator, Iterator);
+        void m_clear_internal();
 };
 
 #include "forward_list_ctors.ipp"

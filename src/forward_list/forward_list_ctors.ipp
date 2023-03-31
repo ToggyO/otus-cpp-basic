@@ -21,6 +21,7 @@ ForwardList<T>::ForwardList(FwdIt begin, FwdIt end)
 
     m_tail = current;
     m_tail->next = nullptr;
+    m_before_head->next = m_head;
 }
 
 template <class T>
@@ -47,6 +48,7 @@ ForwardList<T>::ForwardList(const ForwardList<T>& other)
         current_other = current_other->next;
     }
 
+    m_before_head->next = m_head;
     m_tail = current;
     m_tail->next = nullptr;
     m_size = other.m_size;

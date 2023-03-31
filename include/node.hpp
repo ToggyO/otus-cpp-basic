@@ -1,16 +1,5 @@
 #pragma once
 
-// TODO: remove
-// struct NodeBase
-// {
-//     NodeBase* next;
-
-//     NodeBase() : next(nullptr) {}
-
-//     protected:
-//         explicit NodeBase(NodeBase* next_) : next(next_) {}
-// };
-
 // Вопрос: при указании компилятору использовать дефолтный деструктор, стоит ли определять остальные члены по правилу пяти?
 template <class T>
 struct Node

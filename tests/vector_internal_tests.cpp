@@ -230,5 +230,5 @@ TEST(TestVectorClear, Success) {
     list.clear();
     ASSERT_EQ(list.size(), 0);
     ASSERT_EQ(list.cap(), 0);
-    ASSERT_EQ(*list.begin(), *list.end());
+    ASSERT_EQ(list.begin(), list.end());
 }

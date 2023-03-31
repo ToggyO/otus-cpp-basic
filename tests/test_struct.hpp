@@ -24,8 +24,6 @@ struct A
 
     ~A()
     {
-        // TODO: remove
-        // std::cout << "Removing A: " << a << " " << b << std::endl;
         a = 0;
         b = 0;
     }
