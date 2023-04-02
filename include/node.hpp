@@ -50,7 +50,7 @@ private:
         data = std::move(other.data);
         next = other.next;
 
-        other.data = {}; // TODO: check
+        other.data = {};
         other.next = nullptr;
     }
 };

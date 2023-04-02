@@ -249,7 +249,6 @@ TEST(TestForwardListEraseAfter, Success) {
     auto list4 = list;
     list4.erase_after(list4.before_begin());
     EXPECT_EQ(list4.size(), 3);
-    auto r = list4.front();
-    EXPECT_EQ(r, (A{3, 4}));
+    EXPECT_EQ(list4.front(), (A{3, 4}));
     EXPECT_EQ(list4.back(), (A{7, 8}));
 }

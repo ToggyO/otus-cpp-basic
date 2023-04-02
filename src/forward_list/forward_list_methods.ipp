@@ -111,6 +111,11 @@ void ForwardList<T>::pop_front()
     m_before_head->next = m_head;
     delete temp;
     m_size--;
+
+    if (m_size <= 0)
+    {
+        m_clear_internal();
+    }
 }
 
 template <class T>
@@ -147,6 +152,11 @@ void ForwardList<T>::resize(size_t count)
 template <class T>
 void ForwardList<T>::erase_after(Iterator pos)
 {
+    if (pos.m_get_node_address() == m_before_head)
+    {
+        return pop_front();
+    }
+
     auto end_node = (pos + 2).m_get_node_address();
     m_erase_after(pos, Iterator(end_node));
 }
@@ -154,6 +164,11 @@ void ForwardList<T>::erase_after(Iterator pos)
 template <class T>
 void ForwardList<T>::erase_after(ConstIterator pos)
 {
+    if (pos.m_get_node_address() == m_before_head)
+    {
+        return pop_front();
+    }
+
     auto start = Iterator(const_cast<Node<T>*>(pos.m_get_node_address()));
     auto end_node = const_cast<Node<T>*>((pos + 2).m_get_node_address());
     m_erase_after(start, Iterator(end_node));

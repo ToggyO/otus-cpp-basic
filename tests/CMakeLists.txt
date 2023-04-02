@@ -22,19 +22,32 @@ add_executable(tests
     ${COMMON_SRCS}
 )
 
-target_compile_options(tests PRIVATE 
-    -g
-    -Wall
-    -Wextra
-    -Werror
-    -pedantic
-    -fsanitize=address
-    -fsanitize=leak
-)
-target_link_options(tests PRIVATE 
-    -fsanitize=address
-    -fsanitize=leak
-)
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR
+    CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang" OR
+    CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    target_compile_options(tests PRIVATE 
+        -g
+        -Wall
+        -Wextra
+        -Werror
+        -pedantic
+        -fsanitize=address
+        -fsanitize=leak
+    )
+    target_link_options(tests PRIVATE 
+        -fsanitize=address
+        -fsanitize=leak
+    )
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    target_compile_options(tests PRIVATE
+        /W4
+        /WX
+        /fsanitize=address
+    )
+    target_link_options(${target} PRIVATE 
+        /fsanitize=address
+    )
+endif()
 
 target_include_directories(tests PUBLIC
     ${CMAKE_SOURCE_DIR}/src

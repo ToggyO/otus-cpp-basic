@@ -19,7 +19,6 @@ struct ForwardIterator
 
     itr_type operator+(difference_type count);
 
-    // TODO: test case on null m_current
     reference operator*() const { return m_current->data; }
 
     pointer operator->() const { return &m_current->data; }

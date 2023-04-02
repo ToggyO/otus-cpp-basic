@@ -13,13 +13,7 @@ Vector<T>::Vector(RacIt begin, RacIt end) : m_size(), m_cap(), m_arr()
 
 template <typename T>
 Vector<T>::Vector(std::initializer_list<T> il) : Vector(il.begin(), il.end())
-{
-    // TODO: remove
-    // for (auto iter = l.begin(); iter != l.end(); ++iter)
-    // {
-    //     push_back(*iter);
-    // }
-}
+{ }
 
 template <typename T>
 Vector<T>::Vector(const Vector<T>& other)

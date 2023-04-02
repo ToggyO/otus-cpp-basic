@@ -28,6 +28,11 @@ void ForwardList<T>::m_traverse(Iterator first, Iterator last, std::function<voi
 template <class T>
 void ForwardList<T>::m_insert(Node<T>* pivot_node, T obj)
 {
+    if (pivot_node == m_before_head)
+    {
+        return push_front(std::move(obj));
+    }
+
     if (pivot_node == nullptr || m_head == nullptr || pivot_node == m_tail)
     {
         return push_back(std::move(obj));
@@ -51,7 +56,11 @@ void ForwardList<T>::m_erase_after(Iterator first, Iterator last)
     first.m_get_node_address()->next = last.m_get_node_address();
     m_size -= delete_count;
 
-    // TODO: актуализировать m_before_head, если удален m_head
+    if (first.m_get_node_address() == m_before_head)
+    {
+        m_head = m_before_head->next;
+    }
+
     if (m_size <= 0)
     {
         m_clear_internal();
