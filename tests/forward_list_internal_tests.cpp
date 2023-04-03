@@ -4,8 +4,9 @@
 #include "test_struct.hpp"
 #include "forward_list/forward_list.hpp"
 
-TEST(TestForwardListConstructors, Success) {
-    ForwardList<A> list;
+
+TEST(ForwardList, Constructors) {
+    ForwardList<A> list; // HW7 - cоздание контейнера
     EXPECT_EQ(list.size(), 0);
 
     // Initializer list and iterator ctors
@@ -13,19 +14,20 @@ TEST(TestForwardListConstructors, Success) {
     EXPECT_EQ(list1.size(), 3);
 
     // Copy ctor
-    ForwardList<A> list2(list1);
-    EXPECT_EQ(list2.front(), (A{1, 2}));
+    ForwardList<A> list2(list1); // HW7 - unit-тест на копирование контейнера
+    EXPECT_EQ(list2.front(), (A{1, 2})); // HW7 - получение элементов из контейнера
     EXPECT_EQ(list2.back(), (A{5, 6}));
     EXPECT_EQ(list2.size(), 3);
 
     // Move ctor
-    ForwardList<A> list3(std::move(list2));
+    ForwardList<A> list3(std::move(list2)); // HW7 - unit-тест на перемещение контейнера
     EXPECT_EQ(list3.front(), (A{1, 2}));
     EXPECT_EQ(list3.back(), (A{5, 6}));
     EXPECT_EQ(list3.size(), 3);
 }
 
-TEST(TestForwardListClear, Success) {
+// HW7 - unit-тест на удаление контейнера
+TEST(ForwardList, Clear) {
     ForwardList<A> list;
 
     list.push_back(A{1, 2});
@@ -36,7 +38,7 @@ TEST(TestForwardListClear, Success) {
     EXPECT_EQ(list.size(), 0);
 }
 
-TEST(TestForwardListOperators, Success) {
+TEST(ForwardList, Operators) {
     ForwardList<A> list { A{1, 2}, A{3, 4}, A{5, 6} };
 
     // Copy operator
@@ -52,7 +54,8 @@ TEST(TestForwardListOperators, Success) {
     EXPECT_EQ(list2.back(), (A{5, 6}));
 }
 
-TEST(TestForwardListPushFront, Success) {
+// HW7 - вставка элементов в начало
+TEST(ForwardList, PushFront) {
     ForwardList<A> list;
 
     A a1(1, 2);
@@ -76,7 +79,8 @@ TEST(TestForwardListPushFront, Success) {
     EXPECT_EQ(list.back(), a1);
 }
 
-TEST(TestForwardListPushBack, Success) {
+// HW7 - вставка элементов в конец
+TEST(ForwardList, PushBack) {
     ForwardList<A> list;
 
     A a1(1, 2);
@@ -100,7 +104,8 @@ TEST(TestForwardListPushBack, Success) {
     EXPECT_EQ(list.back(), (A{5, 6}));
 }
 
-TEST(TestForwardListPopFront, Success) {
+// HW7 - удаление элементов из начала
+TEST(ForwardList, PopFront) {
     ForwardList<A> list;
 
     list.push_back(A{1, 2});
@@ -117,11 +122,11 @@ TEST(TestForwardListPopFront, Success) {
     EXPECT_EQ(list.front(), (A{5, 6}));
 }
 
-TEST(TestForwardListEmplaceAfter, Success) {
+TEST(ForwardList, EmplaceAfter) {
     ForwardList<A> list;
 
     // Iterator
-    list.emplace_after(list.begin(), 1, 2);
+    list.emplace_after(list.begin(), 1, 2); // HW7 - вставка элементов в середину
     EXPECT_EQ(list.size(), 1);
     EXPECT_EQ(list.front(), (A{1, 2}));
     EXPECT_EQ(list.back(), (A{1, 2}));
@@ -136,6 +141,11 @@ TEST(TestForwardListEmplaceAfter, Success) {
     EXPECT_EQ(list.size(), 3);
     EXPECT_EQ(list.front(), (A{1, 2}));
     EXPECT_EQ(list.back(), (A{3, 4}));
+
+    list.emplace_after(list.before_begin(), 111, 222); // HW7 - вставка элементов в начало
+    EXPECT_EQ(list.size(), 4);
+    EXPECT_EQ(list.front(), (A{111, 222}));
+    EXPECT_EQ(list.back(), (A{3, 4}));
 }
 
 TEST(TestForwardListInsertAfter, Success) {
@@ -143,7 +153,7 @@ TEST(TestForwardListInsertAfter, Success) {
 
     // Copy version + Const iterator
     A a(1, 2);
-    list.insert_after(list.cbegin(), a);
+    list.insert_after(list.cbegin(), a); // HW7 - вставка элементов в начало
     EXPECT_EQ(list.size(), 1);
     EXPECT_EQ(list.front(), (A{1, 2}));
     EXPECT_EQ(list.back(), (A{1, 2}));
@@ -162,13 +172,14 @@ TEST(TestForwardListInsertAfter, Success) {
     EXPECT_EQ(list.back(), (A{3, 4}));
 
     // Mopy version + Iterator
-    list.insert_after(list.end(), A{7, 8});
+    list.insert_after(list.end(), A{7, 8}); // HW7 - вставка элементов в конец
     EXPECT_EQ(list.size(), 4);
     EXPECT_EQ(list.front(), (A{1, 2}));
     EXPECT_EQ(list.back(), (A{7, 8}));
 }
 
-TEST(TestForwardListEmplaceFront, Success) {
+// HW7 - вставка элементов в начало
+TEST(ForwardList, EmplaceFront) {
     ForwardList<A> list;
 
     list.emplace_front(1, 2);
@@ -182,7 +193,8 @@ TEST(TestForwardListEmplaceFront, Success) {
     EXPECT_EQ(list.back(), (A{1, 2}));
 }
 
-TEST(TestForwardListEmplaceBack, Success) {
+// HW7 - вставка элементов в конец
+TEST(ForwardList, EmplaceBack) {
     ForwardList<A> list;
 
     list.emplace_back(1, 2);
@@ -196,7 +208,7 @@ TEST(TestForwardListEmplaceBack, Success) {
     EXPECT_EQ(list.back(), (A{3, 4}));
 }
 
-TEST(TestForwardListResize, Success) {
+TEST(ForwardList, Resize) {
     ForwardList<A> list;
 
     list.push_back(A{1, 2});
@@ -218,7 +230,7 @@ TEST(TestForwardListResize, Success) {
     EXPECT_EQ(list.back(), (A{7, 8}));
 }
 
-TEST(TestForwardListEraseAfter, Success) {
+TEST(ForwardList, EraseAfter) {
     ForwardList<A> list;
 
     list.push_back(A{1, 2});
@@ -235,7 +247,7 @@ TEST(TestForwardListEraseAfter, Success) {
 
     // Single position + Const iterator
     auto list2 = list;
-    list2.erase_after(list2.cbegin() + 1);
+    list2.erase_after(list2.cbegin() + 1); // HW7 - удаление элементов из середины
     EXPECT_EQ(list2.size(), 3);
     EXPECT_EQ(list2.front(), (A{1, 2}));
     EXPECT_EQ(list2.back(), (A{7, 8}));
