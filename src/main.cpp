@@ -1,9 +1,14 @@
-#include "hw_tasks/hw_tasks.h"
+#include <forward_list>
+#include <iostream>
 #include <vector>
+
+#include "hw_tasks/hw_tasks.h"
+
 int main()
 {
-    std::vector<int> l;
-    test_list();
+    test_vector();
+    test_forward_list();
+
     return 0;
 }
 

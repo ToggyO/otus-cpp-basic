@@ -23,7 +23,7 @@ Vector<T>& Vector<T>::operator=(const Vector<T>& other)
 template <class T>
 Vector<T>& Vector<T>::operator=(Vector<T>&& other) noexcept
 {
-    if (this != other)
+    if (this != &other)
     {
         m_size = other.m_size;
         m_cap = other.m_cap;

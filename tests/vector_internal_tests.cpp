@@ -3,23 +3,27 @@
 #include "test_struct.hpp"
 #include "vector/vector.hpp"
 
-TEST(TestConstructors, Success) {
+TEST(TestVectorConstructors, Success) {
     int size = 0;
     int cap = 5;
 
+     // Parameterless ctor
     Vector<A> list;
     list.reserve(cap);
     ASSERT_EQ(cap, list.cap());
 
+    // Copy ctor
     Vector<A> list1(list);
     ASSERT_EQ(cap, list1.cap());
     ASSERT_EQ(cap, list.cap());
     ASSERT_EQ(size, list.size());
 
+    // Move ctor
     Vector<A> list2(std::move(list1));
     ASSERT_EQ(cap, list2.cap());
     ASSERT_EQ(size, list2.size());
 
+    // Initializer list ctor
     Vector<int> list3 { 1, 2, 3 };
     ASSERT_EQ(list3.cap(), 3);
     ASSERT_EQ(list3.size(), 3);
@@ -27,6 +31,7 @@ TEST(TestConstructors, Success) {
     ASSERT_EQ(list3[1], 2);
     ASSERT_EQ(list3[2], 3);
 
+    // Iterator range ctor
     Vector<int> list4(list3.begin(), list3.end());
     ASSERT_EQ(list3.cap(), 3);
     ASSERT_EQ(list3.size(), 3);
@@ -35,7 +40,7 @@ TEST(TestConstructors, Success) {
     ASSERT_EQ(list3[2], 3);
 }
 
-TEST(TestListResize, Success) {
+TEST(TestVectorResize, Success) {
     int expected_cap = 4;
     int new_cap = 10;
 
@@ -58,7 +63,7 @@ TEST(TestListResize, Success) {
     ASSERT_EQ(list[3], (A{7, 8}));
 }
 
-TEST(TestIndexator, Success) {
+TEST(TestVectorIndexator, Success) {
     int val = 5;
     Vector<int> list;
     list.reserve(1);
@@ -67,14 +72,14 @@ TEST(TestIndexator, Success) {
     ASSERT_EQ(val, list[0]);
 }
 
-TEST(TestIndexator, ThrowsIndexOutOfRange) {
+TEST(TestVectorIndexator, ThrowsIndexOutOfRange) {
     int val = 5;
     Vector<int> list;
 
     EXPECT_THROW(list[4] = val, std::out_of_range);
 }
 
-TEST(TestEmplaceBack, Success) {
+TEST(TestVectorEmplaceBack, Success) {
     Vector<A> list;
 
     list.emplace_back(1, 2);
@@ -93,7 +98,7 @@ TEST(TestEmplaceBack, Success) {
     ASSERT_EQ(a, list[2]);
 }
 
-TEST(TestPushBack, Success) {
+TEST(TestVectorPushBack, Success) {
     Vector<A> list;
 
     // Move version
@@ -108,7 +113,7 @@ TEST(TestPushBack, Success) {
     a.a = 10;
 }
 
-TEST(TestInsert, Success) {
+TEST(TestVectorInsert, Success) {
     Vector<A> list;
 
     list.emplace_back(1, 2);
@@ -150,7 +155,7 @@ TEST(TestInsert, Success) {
     ASSERT_EQ(list[0], (A{123, 456}));
 }
 
-TEST(TestEmplace, Success) {
+TEST(TestVectorEmplace, Success) {
     Vector<A> list;
 
     list.emplace_back(1, 2);
@@ -183,7 +188,7 @@ TEST(TestEmplace, Success) {
     ASSERT_EQ(list[0], (A{123, 456}));
 }
 
-TEST(TestErase, Success) {
+TEST(TestVectorErase, Success) {
     Vector<A> list;
 
     list.emplace_back(1, 2);
@@ -215,7 +220,7 @@ TEST(TestErase, Success) {
     citer = list.cbegin();
 }
 
-TEST(TestClear, Success) {
+TEST(TestVectorClear, Success) {
     Vector<A> list;
 
     list.emplace_back(1, 2);
@@ -225,5 +230,5 @@ TEST(TestClear, Success) {
     list.clear();
     ASSERT_EQ(list.size(), 0);
     ASSERT_EQ(list.cap(), 0);
-    ASSERT_EQ(*list.begin(), *list.end());
+    ASSERT_EQ(list.begin(), list.end());
 }

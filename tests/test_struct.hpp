@@ -22,7 +22,11 @@ struct A
         other.b = 0;
     }
 
-    ~A() = default;
+    ~A()
+    {
+        a = 0;
+        b = 0;
+    }
 
     A& operator=(const A& other)
     {

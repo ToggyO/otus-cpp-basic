@@ -2,7 +2,7 @@
 
 #include "iterator/sequential/iterator_base.hpp"
 
-TEST(TestIterator, IteratesProperlyAndAllowToMutate) {
+TEST(TestSequentialIterator, IteratesProperlyAndAllowToMutate) {
     int replace = 17;
     int a[5] { 1, 2, 3, 4, 5 };
     int* ptr = a;

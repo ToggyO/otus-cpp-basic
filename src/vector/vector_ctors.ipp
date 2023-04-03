@@ -12,13 +12,8 @@ Vector<T>::Vector(RacIt begin, RacIt end) : m_size(), m_cap(), m_arr()
 }
 
 template <typename T>
-Vector<T>::Vector(std::initializer_list<T> l) : m_size(0), m_cap(l.size()), m_arr((T*)operator new(sizeof(T) * l.size()))
-{
-    for (auto iter = l.begin(); iter != l.end(); ++iter)
-    {
-        push_back(*iter);
-    }
-}
+Vector<T>::Vector(std::initializer_list<T> il) : Vector(il.begin(), il.end())
+{ }
 
 template <typename T>
 Vector<T>::Vector(const Vector<T>& other)
@@ -27,7 +22,7 @@ Vector<T>::Vector(const Vector<T>& other)
     m_cap = other.m_cap;
 
     m_arr = (T*)::operator new(sizeof(T) * m_cap);
-    for (int i = 0; i < m_size; ++i)
+    for (size_t i = 0; i < m_size; ++i)
     {
         *(m_arr + i) = other.m_arr[i];
     }
