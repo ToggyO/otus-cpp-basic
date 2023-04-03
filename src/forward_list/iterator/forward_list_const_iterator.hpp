@@ -1,5 +1,5 @@
 template <class T>
-class ForwardList; // Вопрос: правильно ли так делать? Не понимаю, класс дклариуется несколько раз? Если он уже объявлен в forward_list.hpp
+class ForwardList;
 
 template <class T>
 struct ConstForwardIterator
