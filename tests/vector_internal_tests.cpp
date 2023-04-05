@@ -14,14 +14,14 @@ TEST(TestVectorConstructors, Success) {
 
     // Copy ctor
     Vector<A> list1(list);
-    ASSERT_EQ(cap, list1.cap());
+    ASSERT_EQ(0, list1.cap());
     ASSERT_EQ(cap, list.cap());
     ASSERT_EQ(size, list.size());
 
     // Move ctor
     Vector<A> list2(std::move(list1));
-    ASSERT_EQ(cap, list2.cap());
-    ASSERT_EQ(size, list2.size());
+    ASSERT_EQ(0, list2.cap());
+    ASSERT_EQ(0, list2.size());
 
     // Initializer list ctor
     Vector<int> list3 { 1, 2, 3 };
@@ -38,6 +38,18 @@ TEST(TestVectorConstructors, Success) {
     ASSERT_EQ(list3[0], 1);
     ASSERT_EQ(list3[1], 2);
     ASSERT_EQ(list3[2], 3);
+}
+
+TEST(Vector, RangeCtorMakesCopy) {
+    Vector<A> v { A{1, 2}, A{3, 4}, A{5, 6} };
+
+    Vector<A> v1(v.begin(), v.end());
+
+    ASSERT_EQ(v.cap(), 3);
+    ASSERT_EQ(v.size(), 3);
+    ASSERT_EQ(v[0], (A{1, 2}));
+    ASSERT_EQ(v[1], (A{3, 4}));
+    ASSERT_EQ(v[2], (A{5, 6}));
 }
 
 TEST(TestVectorResize, Success) {

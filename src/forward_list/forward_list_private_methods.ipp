@@ -13,7 +13,8 @@ void ForwardList<T>::m_move(ForwardList<T>&& other)
 }
 
 template <class T>
-void ForwardList<T>::m_traverse(Iterator first, Iterator last, std::function<void(const Node<T>*)> action)
+template <class Action>
+void ForwardList<T>::m_traverse(Iterator first, Iterator last, Action action)
 {
     auto current = first.m_get_node_address();
     auto end = last.m_get_node_address();

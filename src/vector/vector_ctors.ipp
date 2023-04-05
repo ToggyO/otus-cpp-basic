@@ -8,7 +8,7 @@ Vector<T>::Vector(RacIt begin, RacIt end) : m_size(), m_cap(), m_arr()
 {
     m_cap = end - begin;
     m_arr = (T*)operator new(sizeof(T) * m_cap);
-    std::move(begin, end, std::back_inserter(*this));
+    std::copy(begin, end, std::back_inserter(*this));
 }
 
 template <typename T>
@@ -16,16 +16,17 @@ Vector<T>::Vector(std::initializer_list<T> il) : Vector(il.begin(), il.end())
 { }
 
 template <typename T>
-Vector<T>::Vector(const Vector<T>& other)
+Vector<T>::Vector(const Vector<T>& other) : Vector(other.begin(), other.end())
 {
-    m_size = other.m_size;
-    m_cap = other.m_cap;
-
-    m_arr = (T*)::operator new(sizeof(T) * m_cap);
-    for (size_t i = 0; i < m_size; ++i)
-    {
-        *(m_arr + i) = other.m_arr[i];
-    }
+// TODO: оставлю, как кодовую базу
+//    m_size = other.m_size;
+//    m_cap = other.m_cap;
+//
+//    m_arr = (T*)::operator new(sizeof(T) * m_cap);
+//    for (size_t i = 0; i < m_size; ++i)
+//    {
+//        *(m_arr + i) = other.m_arr[i];
+//    }
 }
 
 template <class T>
