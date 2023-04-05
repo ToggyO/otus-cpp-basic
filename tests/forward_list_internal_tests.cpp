@@ -26,6 +26,16 @@ TEST(ForwardList, Constructors) {
     EXPECT_EQ(list3.size(), 3);
 }
 
+TEST(ForwardList, RangeCtorMakesCopy) {
+    ForwardList<A> fw { A{1, 2}, A{3, 4}, A{5, 6} };
+
+    ForwardList<A> fw1(fw.begin(), fw.end());
+
+    ASSERT_EQ(fw.size(), 3);
+    ASSERT_EQ(fw.front(), (A{1, 2}));
+    ASSERT_EQ(fw.back(), (A{5, 6}));
+}
+
 // HW7 - unit-тест на удаление контейнера
 TEST(ForwardList, Clear) {
     ForwardList<A> list;

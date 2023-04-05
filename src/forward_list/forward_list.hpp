@@ -1,6 +1,5 @@
 #pragma once
 
-#include <functional>
 #include <initializer_list>
 #include <numeric>
 #include <cstddef>
@@ -124,9 +123,14 @@ class ForwardList
         size_t m_size;
 
         void m_move(ForwardList<T>&&);
-        void m_traverse(Iterator, Iterator, std::function<void(const Node<T>*)>);
+
+        template <class Action>
+        void m_traverse(Iterator, Iterator, Action action);
+ 
         void m_insert(Node<T>* pivot_node, T obj);
+
         void m_erase_after(Iterator, Iterator);
+
         void m_clear_internal();
 };
 

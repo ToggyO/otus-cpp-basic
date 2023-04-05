@@ -29,7 +29,7 @@ template <class... Args>
 void ForwardList<T>::emplace_after(Iterator pos, Args&&... args)
 {
     auto pivot_node = pos.m_get_node_address();
-    m_insert(pivot_node, T(std::forward<Args>(args)...)); // Вопрос: оправдано ли здесь применение std::forward?
+    m_insert(pivot_node, T(std::forward<Args>(args)...));
 }
 
 template <class T>
@@ -37,7 +37,7 @@ template <class... Args>
 void ForwardList<T>::emplace_after(ConstIterator pos, Args&&... args)
 {
     auto pivot_node = const_cast<Node<T>*>(pos.m_get_node_address());
-    m_insert(pivot_node, T(std::forward<Args>(args)...)); // Вопрос: оправдано ли здесь применение std::forward?
+    m_insert(pivot_node, T(std::forward<Args>(args)...));
 }
 
 template <class T>
@@ -89,7 +89,7 @@ template <class T>
 template<class... Args>
 void ForwardList<T>::emplace_front(Args&&... args)
 {
-    auto obj = T(std::forward<Args>(args)...); // Вопрос: оправдано ли здесь применение std::forward?
+    auto obj = T(std::forward<Args>(args)...);
     push_front(std::move(obj));
 }
 
@@ -97,14 +97,17 @@ template <class T>
 template<class... Args>
 void ForwardList<T>::emplace_back(Args&&... args)
 {
-    auto obj = T(std::forward<Args>(args)...); // Вопрос: оправдано ли здесь применение std::forward?
+    auto obj = T(std::forward<Args>(args)...);
     push_back(std::move(obj));
 }
 
 template <class T>
 void ForwardList<T>::pop_front()
 {
-    if (m_head == nullptr) { return; }
+    if (m_head == nullptr)
+    {
+        throw std::runtime_error("container is empty");
+    }
 
     auto temp = m_head;
     m_head = m_head->next;

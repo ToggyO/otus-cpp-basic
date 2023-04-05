@@ -46,6 +46,18 @@ TEST(Vector, Constructors) {
     ASSERT_EQ(list4[2], list1[2]);
 }
 
+TEST(Vector, RangeCtorMakesCopy) {
+    Vector<A> v { A{1, 2}, A{3, 4}, A{5, 6} };
+
+    Vector<A> v1(v.begin(), v.end());
+
+    ASSERT_EQ(v.cap(), 3);
+    ASSERT_EQ(v.size(), 3);
+    ASSERT_EQ(v[0], (A{1, 2}));
+    ASSERT_EQ(v[1], (A{3, 4}));
+    ASSERT_EQ(v[2], (A{5, 6}));
+}
+
 TEST(Vector, Resize) {
     int expected_cap = 4;
     int new_cap = 10;
